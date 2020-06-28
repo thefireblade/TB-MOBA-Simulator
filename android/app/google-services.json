@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "874646918161",
+    "firebase_url": "https://tbmoba-61695.firebaseio.com",
+    "project_id": "tbmoba-61695",
+    "storage_bucket": "tbmoba-61695.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874646918161:android:7f19a7759aeb28bf98cdb0",
+        "android_client_info": {
+          "package_name": "com.example.tb_moba_simulator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874646918161-okv5obs40b19e1hn6pkeclu5rarohmvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn3IY8amX1E6gKdSpSUHu4gJZdO40viVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874646918161-okv5obs40b19e1hn6pkeclu5rarohmvc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
