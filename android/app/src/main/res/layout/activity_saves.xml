@@ -7,6 +7,7 @@
     tools:context=".SavesActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/saves_recyclerview"
         android:layout_width="410dp"
         android:layout_height="636dp"
         android:layout_below="@+id/saves_back"
