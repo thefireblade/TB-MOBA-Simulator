@@ -20,13 +20,12 @@ public class Character {
     private CharacterClass type;
     private ArrayList<Item> items;
     private int currHP, currEnergy;
-    private String currLocation;
     private Team team;
     private String name;
 
     public Character(int baseHp, int baseAtk, int baseDef, int baseEnergy, int hpPT,
                      int atkPT, int defPT, int energyPT, int level, CharacterClass characterType,
-                     String name, Team team, String location) {
+                     String name, Team team) {
         this.baseHP = baseHp; this.baseAtk = baseAtk; this.baseDef = baseDef; this.baseEnergy = baseEnergy;
         this.hpPT = hpPT; this.atkPT = atkPT; this.defPT = defPT; this.energyPT = energyPT;
         this.wealth = 0;
@@ -38,7 +37,6 @@ public class Character {
         this.items = new ArrayList<Item>();
         this.name = name;
         this.team = team;
-        this.currLocation = location;
     }
 
     public int getHpPT() {
@@ -159,14 +157,6 @@ public class Character {
 
     public void setCurrEnergy(int currEnergy) {
         this.currEnergy = currEnergy;
-    }
-
-    public String getCurrLocation() {
-        return currLocation;
-    }
-
-    public void setCurrLocation(String currLocation) {
-        this.currLocation = currLocation;
     }
 
     public Team getTeam() {
