@@ -46,6 +46,7 @@ public class SaveListAdapter extends RecyclerView.Adapter<SaveListAdapter.SaveHo
     public void onBindViewHolder(@NonNull SaveHolderClass holder, final int position) {
         final SaveObject currSave = saves.get(position);
         holder.saveName.setText(currSave.getName());
+        holder.img.setImageResource(R.drawable.save);
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +54,6 @@ public class SaveListAdapter extends RecyclerView.Adapter<SaveListAdapter.SaveHo
                 deleteItem(position);
             }
         });
-
     }
 
     @Override

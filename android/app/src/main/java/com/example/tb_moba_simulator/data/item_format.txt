@@ -1,0 +1,10 @@
+{
+   "power":20,
+   "consumable":true,
+   "cost":2,
+   "upgrade":"",
+   "img":"imgPath",
+   "upgradeCost":0,
+   "boostType":"health",
+   "purchasable":true
+}

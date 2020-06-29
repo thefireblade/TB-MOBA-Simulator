@@ -1,0 +1,49 @@
+{
+   "spells":[
+      {
+         "scale_health":1,
+         "scale_attack":1,
+         "base_attack":2,
+         "target":"else",
+         "name":"Breaking Slash",
+         "level_required":1,
+         "cost":2,
+         "attack_per_level":3,
+         "type":"attack",
+         "priority": 1,
+         "Description":"Deal (2 + bonus_attack + bonus_health + 3 * level) to an enemy."
+      },
+      {
+           "scale_health":1,
+           "scale_attack":1,
+           "base_attack": 4,
+           "target":"else",
+           "name":"Quick Strike",
+           "level_required":3,
+           "cost": 6,
+           "attack_per_level":1,
+           "type":"attack",
+           "priority": 3,
+           "Description":"Deal (4 + bonus_attack + bonus_health) to an enemy."
+        },
+      {
+           "scale_health":1,
+           "scale_attack":1,
+           "base_attack":0,
+           "target":"self",
+           "name":"Sheathe",
+           "level_required":6,
+           "cost":5,
+           "attack_per_level":3,
+           "type":"health",
+           "priority": 1,
+           "Description":"Restore (bonus_attack + bonus_health + 3 * level) health."
+        }
+   ],
+   "base_attack":4,
+   "energy_per_level":3,
+   "base_energy":2,
+   "attack_per_level":2,
+   "health_per_level":5,
+   "base_health":12
+}

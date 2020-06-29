@@ -1,9 +1,12 @@
 package com.example.tb_moba_simulator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     private TextView error_text;
     private static final String TAG = "SplashActivity";
     private String email, pass;
+    private View thisView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +51,29 @@ public class SplashActivity extends AppCompatActivity {
         email_field = findViewById(R.id.login_email);
         pass_field = findViewById(R.id.login_pass);
         error_text = findViewById(R.id.login_error);
+        email_field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                View view = v;
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        });
+        pass_field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                View view = v;
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        });
     }
     private void initButtons(){
+        thisView = this.getCurrentFocus();
         login_button = findViewById(R.id.login_button2);
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
