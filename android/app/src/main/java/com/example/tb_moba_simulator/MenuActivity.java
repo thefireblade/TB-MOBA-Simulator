@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.InsetDialogOnTouchListener;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,6 +51,13 @@ public class MenuActivity extends AppCompatActivity {
     }
     private void initButtons() {
         newGame = findViewById(R.id.menu_start);
+        newGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gameModes = new Intent(MenuActivity.this, GameModeSelectActivity.class);
+                startActivity(gameModes);
+            }
+        });
         settings = findViewById(R.id.menu_settings);
         loadSave = findViewById(R.id.menu_load);
         loadSave.setOnClickListener(new View.OnClickListener() {

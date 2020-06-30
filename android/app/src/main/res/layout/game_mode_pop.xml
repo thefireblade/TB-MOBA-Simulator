@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#272626"
-    app:cardBackgroundColor="#252323"
     app:cardCornerRadius="20dp">
 
 
@@ -21,7 +19,6 @@
         android:layout_above="@+id/game_mode_recycler"
         android:text="Select a Gamemode"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="bold"
         android:layout_marginTop="50dp" />

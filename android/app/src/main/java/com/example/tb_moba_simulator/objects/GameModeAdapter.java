@@ -2,6 +2,7 @@ package com.example.tb_moba_simulator.objects;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SymbolTable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class GameModeAdapter extends RecyclerView.Adapter<GameModeAdapter.GameMo
         public Button gameMode;
         public GameModeHolderClass(@NonNull View itemView) {
             super(itemView);
-            this.gameMode = itemView.findViewById(R.id.game_mode_title);
+            this.gameMode = itemView.findViewById(R.id.game_mode_item_name);
         }
     }
     public GameModeAdapter(ArrayList<String> gameModes, Context context) {
@@ -33,15 +34,14 @@ public class GameModeAdapter extends RecyclerView.Adapter<GameModeAdapter.GameMo
     @NonNull
     @Override
     public GameModeHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.save_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.game_mode_item, parent, false);
         GameModeHolderClass gmh = new GameModeHolderClass(v);
         return gmh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull GameModeHolderClass holder, final int position) {
-        final String gameMode = gameModes.get(position);
-        holder.gameMode.setText(gameMode);
+        holder.gameMode.setText(gameModes.get(position));
         holder.gameMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,5 +53,9 @@ public class GameModeAdapter extends RecyclerView.Adapter<GameModeAdapter.GameMo
     @Override
     public int getItemCount() {
         return this.gameModes.size();
+    }
+    public void addGameMode(String gameMode) {
+        this.gameModes.add(gameMode);
+        notifyDataSetChanged();
     }
 }
