@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/in_game_player"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:lines="4"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:text="hp \natk \nenergy \nExp"
+        android:layout_toRightOf="@id/in_game_character"/>
+    <TextView
+        android:id="@+id/in_game_stats"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="100dp"
+        android:lines="4"
+        android:text="level \nGold \nHealth \nEnergy"
+        android:layout_toRightOf="@id/in_game_player"/>
+
+    <TextView
+        android:id="@+id/in_game_prompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/in_game_character"
+        android:layout_marginBottom="20dp"
+        android:text="What will you do?"
+        android:layout_toRightOf="@id/in_game_back"
+        android:textAlignment="center" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/in_game_recycler"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="400dp"
+        android:layout_below="@id/in_game_prompt"/>
+
+    <Button
+        android:id="@+id/in_game_bag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_below="@id/in_game_recycler"
+        />
+
+    <Button
+        android:id="@+id/in_game_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/in_game_recycler"
+        android:layout_toRightOf="@id/in_game_bag"/>
+
+    <Button
+        android:id="@+id/in_game_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/in_game_recycler"
+        android:layout_toRightOf="@id/in_game_map"/>
+
+    <Button
+        android:id="@+id/in_game_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/in_game_recycler"
+        android:layout_toRightOf="@id/in_game_log"/>
+
+    <ImageView
+        android:id="@+id/in_game_character"
+        android:layout_width="100dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/archer" />
+
+    <TextView
+        android:id="@+id/in_game_turn"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_height="wrap_content"
+        android:text="Turn #"
+        android:layout_toRightOf="@id/in_game_stats"/>
+
+    <Button
+        android:id="@+id/in_game_back"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_above="@id/in_game_recycler"/>
+</RelativeLayout>

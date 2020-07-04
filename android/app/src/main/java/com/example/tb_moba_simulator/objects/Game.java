@@ -8,7 +8,7 @@ public interface Game {
     public boolean hasEnded();
     public void spawnMobs();
     public boolean saveGame();
-    public void addAI(Character.Team team);
+    public void addAI(Character c, Character.Team team);
     public void addPlayer(Character.Team team);
-
+    public Character getCurrentPlayer();
 }

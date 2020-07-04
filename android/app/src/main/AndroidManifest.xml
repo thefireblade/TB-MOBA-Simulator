@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SavesActivity"></activity>
-        <activity android:name=".MenuActivity" />
+        <activity android:name=".MenuActivity" ></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".GameModeSelectActivity"
             android:theme="@style/AppTheme.popup"></activity>
+        <activity android:name=".InGameActivity" ></activity>
     </application>
 
 </manifest>

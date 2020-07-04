@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tb_moba_simulator.objects.Game;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseManager.mAuth;
         FirebaseManager.initFireStore();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        GameManager.loadAllCharacterTypes();
         updateUI(currentUser);
         initEditText();
         initButtons();
@@ -43,6 +45,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
+            System.out.println("User : " + currentUser.getEmail() + " has been logged in!");
             Intent loadMenu = new Intent(SplashActivity.this, MenuActivity.class);
             startActivity(loadMenu);
         }

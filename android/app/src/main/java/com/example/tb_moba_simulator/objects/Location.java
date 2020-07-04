@@ -19,7 +19,15 @@ public class Location {
     public void setName(String name) {
         this.name = name;
     }
-
+    public void addConnection(Location location) {
+        connects.add(location);
+    }
+    public void addEntity(Character c) {
+        entities.add(c);
+    }
+    public void removeEntity(Character c) {
+        entities.remove(c);
+    }
     public ArrayList<Location> getConnects() {
         return connects;
     }

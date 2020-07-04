@@ -13,12 +13,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tb_moba_simulator.GameManager;
+import com.example.tb_moba_simulator.InGameActivity;
+import com.example.tb_moba_simulator.MenuActivity;
 import com.example.tb_moba_simulator.R;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class GameModeAdapter extends RecyclerView.Adapter<GameModeAdapter.GameModeHolderClass>  {
-    ArrayList<String> gameModes;
+    ArrayList<Map<String, Object>> gameModes;
     private Context context;
     static class GameModeHolderClass extends RecyclerView.ViewHolder{
         public Button gameMode;
@@ -27,7 +32,7 @@ public class GameModeAdapter extends RecyclerView.Adapter<GameModeAdapter.GameMo
             this.gameMode = itemView.findViewById(R.id.game_mode_item_name);
         }
     }
-    public GameModeAdapter(ArrayList<String> gameModes, Context context) {
+    public GameModeAdapter(ArrayList<Map<String, Object>> gameModes, Context context) {
         this.gameModes = gameModes;
         this.context = context;
     }
@@ -41,11 +46,14 @@ public class GameModeAdapter extends RecyclerView.Adapter<GameModeAdapter.GameMo
 
     @Override
     public void onBindViewHolder(@NonNull GameModeHolderClass holder, final int position) {
-        holder.gameMode.setText(gameModes.get(position));
+        holder.gameMode.setText((String)gameModes.get(position).get("name"));
         holder.gameMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, InGameActivity.class);
+                Map<String, Object> currentLand = gameModes.get(position);
+                GameManager.initGameMode(currentLand);
+                context.startActivity(intent);
             }
         });
     }
@@ -54,7 +62,7 @@ public class GameModeAdapter extends RecyclerView.Adapter<GameModeAdapter.GameMo
     public int getItemCount() {
         return this.gameModes.size();
     }
-    public void addGameMode(String gameMode) {
+    public void addGameMode(Map<String, Object> gameMode) {
         this.gameModes.add(gameMode);
         notifyDataSetChanged();
     }

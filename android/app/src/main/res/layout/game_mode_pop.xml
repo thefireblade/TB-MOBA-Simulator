@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D1CFCB"
     app:cardCornerRadius="20dp">
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/game_mode_recycler"
         android:layout_width="match_parent"
         android:layout_height="529dp"
-        android:layout_marginTop="150dp"
-        android:id="@+id/game_mode_recycler" />
+        android:layout_below="@id/game_mode_spinner"
+        android:layout_marginTop="25dp" />
 
     <TextView
         android:id="@+id/game_mode_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/game_mode_recycler"
+        android:layout_marginTop="25dp"
         android:text="Select a Gamemode"
         android:textAlignment="center"
         android:textSize="36sp"
-        android:textStyle="bold"
-        android:layout_marginTop="50dp" />
-</androidx.cardview.widget.CardView>
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/game_mode_type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/game_mode_title"
+        android:layout_marginTop="25dp"
+        android:text="Character Type : " />
+
+    <Spinner
+        android:id="@+id/game_mode_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/game_mode_title"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/game_mode_type_text" />
+</RelativeLayout>

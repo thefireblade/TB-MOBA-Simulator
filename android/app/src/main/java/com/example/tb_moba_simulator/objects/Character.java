@@ -3,6 +3,7 @@ package com.example.tb_moba_simulator.objects;
 
 import android.icu.util.ULocale;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Character {
@@ -15,28 +16,32 @@ public class Character {
     private int hpPT, atkPT, defPT, energyPT; // Short for attack per turn and defense per level
     private int baseHP, baseAtk, baseDef, baseEnergy;
     private int wealth;
-    private int level;
+    private int exp;
     private boolean hasMoved;
     private CharacterClass type;
     private ArrayList<Item> items;
     private int currHP, currEnergy;
     private Team team;
     private String name;
+    private ArrayList<Spell> spells;
+    private int kills, deaths, assist;
 
     public Character(int baseHp, int baseAtk, int baseDef, int baseEnergy, int hpPT,
-                     int atkPT, int defPT, int energyPT, int level, CharacterClass characterType,
+                     int atkPT, int defPT, int energyPT, int exp, CharacterClass characterType,
                      String name, Team team) {
         this.baseHP = baseHp; this.baseAtk = baseAtk; this.baseDef = baseDef; this.baseEnergy = baseEnergy;
         this.hpPT = hpPT; this.atkPT = atkPT; this.defPT = defPT; this.energyPT = energyPT;
         this.wealth = 0;
         this.hasMoved = false;
         this.type = characterType;
-        this.level = level;
-        this.currHP = baseHp + (level * hpPT);
-        this.currEnergy = baseEnergy + (level * energyPT);
+        this.exp = exp;
+        this.currHP = baseHp + (getLevel() * hpPT);
+        this.currEnergy = baseEnergy + (getLevel() * energyPT);
         this.items = new ArrayList<Item>();
         this.name = name;
         this.team = team;
+        spells = new ArrayList<Spell>();
+        kills = 0; deaths = 0; assist = 0;
     }
 
     public int getHpPT() {
@@ -111,12 +116,8 @@ public class Character {
         this.wealth = wealth;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
     public void setLevel(int level) {
-        this.level = level;
+        this.exp = 5 * level;
     }
 
     public boolean isHasMoved() {
@@ -173,5 +174,78 @@ public class Character {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public void setSpells(ArrayList<Spell> spells) {
+        this.spells = spells;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    public int getAssist() {
+        return assist;
+    }
+
+    public void setAssist(int assist) {
+        this.assist = assist;
+    }
+
+
+    public void addSpell(Spell spell) {
+        this.spells.add(spell);
+    }
+
+    public int getCurrAtk() {
+        return baseAtk + atkPT * getLevel() + getBoost(Item.ItemBoostType.attack);
+    }
+
+    public int getBoost(Item.ItemBoostType boostType){
+        int sum = 0;
+        for(Item item: items) {
+            if(item.getBoostType().equals(boostType) && !item.isConsumable()) {
+                sum += item.getPower();
+            }
+        }
+        return sum;
+    }
+
+    public int getMaxHealth(){
+        return baseHP + hpPT * getLevel() + getBoost(Item.ItemBoostType.health);
+    }
+
+    public int getMaxEnergy(){
+        return baseEnergy + energyPT * getLevel() + getBoost(Item.ItemBoostType.energy);
+    }
+
+    public int getLevel() {
+        return (int)Math.floor(exp / 5.0) + 1;
+    }
+
+    public int getExp(){
+        return this.exp;
+    }
+
+    public Character cloneSelf(){
+        Character newChar = new Character(this.baseHP,this.baseAtk, this.baseDef, this.baseEnergy, this.hpPT, this.atkPT, this.defPT, this.energyPT, this.exp,
+                this.type, this.name, this.team);
+        return newChar;
     }
 }
