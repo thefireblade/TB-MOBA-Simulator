@@ -7,16 +7,20 @@ public class SoloGame implements Game {
     private Character player;
     private ArrayList<Character> ai;
     private ArrayList<Location> locations;
+    private ArrayList<Location> startLocations;
     private ArrayList<Mob> mobs;
+    private ArrayList<Item> shop;
     private String userEmail;
     public SoloGame(Character player,
-                    ArrayList<Location> locations, ArrayList<Mob> mobs, String userEmail) {
-        this.turnCount = 0;
+                    ArrayList<Location> locations, ArrayList<Mob> mobs, String userEmail, ArrayList<Location> startLocations) {
+        this.turnCount = 1;
         this.player = player;
         this.ai = new ArrayList<Character>();
         this.locations = locations;
         this.mobs = mobs;
         this.userEmail = userEmail;
+        this.startLocations = startLocations;
+        this.shop = new ArrayList<>();
     }
     @Override
     public void loadMap() {
@@ -61,5 +65,24 @@ public class SoloGame implements Game {
     @Override
     public Character getCurrentPlayer(){
         return player;
+    }
+
+    @Override
+    public int getTurnCount(){
+        return turnCount;
+    }
+    @Override
+    public boolean isPlayerAtBase(){
+        for(Location location: startLocations) {
+            if(location.getPlayers().indexOf(player) >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList<Item> getShop() {
+        return shop;
     }
 }

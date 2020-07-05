@@ -11,7 +11,7 @@ public class Character {
         archer, sword, shield
     }
     public enum Team {
-        team_0, team_1
+        team_0, team_1, na
     }
     private int hpPT, atkPT, defPT, energyPT; // Short for attack per turn and defense per level
     private int baseHP, baseAtk, baseDef, baseEnergy;
@@ -243,6 +243,33 @@ public class Character {
         return this.exp;
     }
 
+    public boolean purchaseItem(Item item){
+        if(this.wealth >= item.getCost()) {
+            items.add(item);
+            this.wealth -= item.getCost();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean consumeItem(Item item) {
+        int index = items.indexOf(item);
+        if(index >= 0) {
+            switch (item.getBoostType()) {
+                case health:
+                    this.currHP += item.getPower();
+                    break;
+                case energy:
+                    this.currEnergy += item.getPower();
+                    break;
+                default:
+                    this.baseAtk += item.getPower();
+            }
+            items.remove(index);
+            return true;
+        }
+        return false;
+    }
     public Character cloneSelf(){
         Character newChar = new Character(this.baseHP,this.baseAtk, this.baseDef, this.baseEnergy, this.hpPT, this.atkPT, this.defPT, this.energyPT, this.exp,
                 this.type, this.name, this.team);

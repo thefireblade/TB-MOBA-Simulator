@@ -66,5 +66,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="99dp"
         android:layout_marginBottom="48dp"
-        app:srcCompat="@drawable/splashlogo_tbmoba" />
+        app:srcCompat="@drawable/splashlogo_tbmoba_1" />
 </RelativeLayout>

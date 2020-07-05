@@ -11,4 +11,7 @@ public interface Game {
     public void addAI(Character c, Character.Team team);
     public void addPlayer(Character.Team team);
     public Character getCurrentPlayer();
+    public int getTurnCount();
+    public boolean isPlayerAtBase();
+    public ArrayList<Item> getShop();
 }

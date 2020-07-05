@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <ImageView
+            android:id="@+id/bag_item_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="1dp"
+            tools:srcCompat="@drawable/map" />
+
+        <TextView
+            android:id="@+id/bag_item_name"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/bag_item_image"
+            android:text="Bag Item Name"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/bag_item_use"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:text="Use" />
+
+        <TextView
+            android:id="@+id/bag_item_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bag_item_name"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="9dp"
+            android:layout_toEndOf="@+id/bag_item_image"
+            android:lines="3"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/bag_item_sell"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_below="@+id/bag_item_use"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="14dp"
+            android:background="@android:color/holo_red_light"
+            android:text="Sell for 10"
+            android:textColor="#FFFFFF" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

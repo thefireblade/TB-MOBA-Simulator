@@ -2,26 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/in_game_player"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:lines="4"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/in_game_character"
+        android:fontFamily="monospace"
+        android:lines="5"
         android:text="hp \natk \nenergy \nExp"
-        android:layout_toRightOf="@id/in_game_character"/>
+        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/in_game_stats"
         android:layout_width="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:layout_height="100dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/in_game_player"
+        android:fontFamily="monospace"
         android:lines="4"
         android:text="level \nGold \nHealth \nEnergy"
-        android:layout_toRightOf="@id/in_game_player"/>
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/in_game_prompt"
@@ -29,9 +35,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/in_game_character"
         android:layout_marginBottom="20dp"
-        android:text="What will you do?"
         android:layout_toRightOf="@id/in_game_back"
-        android:textAlignment="center" />
+        android:fontFamily="monospace"
+        android:text="What will you do?"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/in_game_recycler"
@@ -44,36 +52,39 @@
         android:id="@+id/in_game_bag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_below="@id/in_game_recycler"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:text="Bag" />
 
     <Button
         android:id="@+id/in_game_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_toRightOf="@id/in_game_bag"
         android:layout_marginLeft="10dp"
-        android:layout_below="@id/in_game_recycler"
-        android:layout_toRightOf="@id/in_game_bag"/>
+        android:text="Map" />
 
     <Button
         android:id="@+id/in_game_log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_toRightOf="@id/in_game_map"
         android:layout_marginLeft="10dp"
-        android:layout_below="@id/in_game_recycler"
-        android:layout_toRightOf="@id/in_game_map"/>
+        android:text="Log" />
 
     <Button
         android:id="@+id/in_game_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_toRightOf="@id/in_game_log"
         android:layout_marginLeft="10dp"
-        android:layout_below="@id/in_game_recycler"
-        android:layout_toRightOf="@id/in_game_log"/>
+        android:text="Menu" />
 
     <ImageView
         android:id="@+id/in_game_character"
@@ -86,12 +97,11 @@
     <TextView
         android:id="@+id/in_game_turn"
         android:layout_width="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
         android:layout_height="wrap_content"
-        android:text="Turn #"
-        android:layout_toRightOf="@id/in_game_stats"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/in_game_stats" />
 
     <Button
         android:id="@+id/in_game_back"
@@ -100,5 +110,49 @@
         android:layout_height="wrap_content"
         android:text="Back"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:layout_above="@id/in_game_recycler"/>
+        android:layout_below="@id/in_game_character"/>
+
+    <Button
+        android:id="@+id/in_game_shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/in_game_back"
+        android:layout_marginTop="10dp"
+        android:text="Shop"
+        android:textColor="#2196F3" />
+
+    <Button
+        android:id="@+id/in_game_rest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/in_game_shop"
+        android:layout_marginTop="10dp"
+        android:text="Rest"
+        android:textColor="#4CAF50" />
+
+    <Button
+        android:id="@+id/in_game_move"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/in_game_rest"
+        android:text="move" />
+
+    <Button
+        android:id="@+id/in_game_attack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/in_game_move"
+        android:layout_marginTop="10dp"
+        android:text="Attack"
+        android:textColor="#F44336" />
+
+    <Button
+        android:id="@+id/in_game_spells"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/in_game_attack"
+        android:layout_marginTop="10dp"
+        android:text="Use Spells"
+        android:textColor="#F44336" />
 </RelativeLayout>

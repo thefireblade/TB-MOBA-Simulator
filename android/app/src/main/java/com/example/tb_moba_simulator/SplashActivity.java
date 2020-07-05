@@ -37,7 +37,6 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseManager.mAuth;
         FirebaseManager.initFireStore();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        GameManager.loadAllCharacterTypes();
         updateUI(currentUser);
         initEditText();
         initButtons();
@@ -45,6 +44,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
+            GameManager.loadDefaultConfiguration();
             System.out.println("User : " + currentUser.getEmail() + " has been logged in!");
             Intent loadMenu = new Intent(SplashActivity.this, MenuActivity.class);
             startActivity(loadMenu);
@@ -109,4 +109,7 @@ public class SplashActivity extends AppCompatActivity {
            }
         } );
     }
+
+    @Override
+    public void onBackPressed() { }
 }

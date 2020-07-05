@@ -21,6 +21,7 @@
         <activity android:name=".GameModeSelectActivity"
             android:theme="@style/AppTheme.popup"></activity>
         <activity android:name=".InGameActivity" ></activity>
+        <activity android:name=".BagsActivity" android:theme="@style/AppTheme.popup"></activity>
     </application>
 
 </manifest>

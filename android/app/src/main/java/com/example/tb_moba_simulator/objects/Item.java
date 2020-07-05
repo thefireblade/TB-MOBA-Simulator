@@ -12,9 +12,11 @@ public class Item {
     private int upgradeCost;
     private boolean consumable;
     private boolean purchasable;
+    private String name;
 
-    public Item(ItemBoostType type, int cost, int power, String imgSrc, Item upgrade, int upgradeCost,
+    public Item(String name, ItemBoostType type, int cost, int power, String imgSrc, Item upgrade, int upgradeCost,
                 boolean consumable, boolean purchasable) {
+        this.name = name;
         this.boostType = type;
         this.cost = cost;
         this.power = power;
@@ -23,6 +25,14 @@ public class Item {
         this.upgradeCost = upgradeCost;
         this.consumable = consumable;
         this.purchasable = purchasable;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ItemBoostType getBoostType() {

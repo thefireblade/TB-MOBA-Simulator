@@ -96,4 +96,6 @@ public class MenuActivity extends AppCompatActivity {
         scanner.close();
         return text;
     }
+    @Override
+    public void onBackPressed() { }
 }
