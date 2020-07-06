@@ -1,6 +1,8 @@
 package com.example.tb_moba_simulator.objects;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Location {
     private String name;
@@ -8,14 +10,36 @@ public class Location {
     private ArrayList<Character> players;
     private ArrayList<Mob> entities;
     private boolean defenseLoc;
+    private boolean hasDefense;
     private Character.Team team;
     public Location(String name, ArrayList<Location> connects, ArrayList<Character> players, boolean defenseLoc, Character.Team team) {
         this.name  = name;
-        this.players =players;
+        this.players = players;
         this.connects = connects;
-        this.entities = new ArrayList<>();
+        this.entities = new ArrayList<Mob>();
         this.defenseLoc = defenseLoc;
+        this.hasDefense = false;
         this.team = team;
+    }
+
+    public boolean hasDefense() {
+        return hasDefense;
+    }
+
+    public void setHasDefense(boolean hasDefense) {
+        this.hasDefense = hasDefense;
+    }
+
+    public ArrayList<Mob> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(ArrayList<Mob> entities) {
+        this.entities = entities;
+    }
+
+    public void setPlayers(ArrayList<Character> players) {
+        this.players = players;
     }
 
     public ArrayList<Character> getPlayers() {
@@ -60,5 +84,8 @@ public class Location {
 
     public void setConnects(ArrayList<Location> connects) {
         this.connects = connects;
+    }
+    public boolean equals(Location loc) {
+        return loc.getName().equals(this.getName());
     }
 }

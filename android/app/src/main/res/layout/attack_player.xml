@@ -14,7 +14,7 @@
         android:layout_margin="4dp">
 
         <ImageView
-            android:id="@+id/save_item_image"
+            android:id="@+id/attack_player_img"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentStart="true"
@@ -24,48 +24,38 @@
             tools:srcCompat="@drawable/save" />
 
         <TextView
-            android:id="@+id/save_item_name"
+            android:id="@+id/attack_player_name"
             android:layout_width="168dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="14dp"
-            android:layout_toEndOf="@+id/save_item_image"
-            android:text="Save Name"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/attack_player_img"
+            android:text="Player Name + level"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/save_item_load"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="15dp"
-            android:text="Load" />
 
-        <Button
-            android:id="@+id/save_item_delete"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_below="@+id/save_item_load"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="15dp"
-            android:background="@android:color/holo_red_light"
-            android:text="Delete"
-            android:textColor="#FFFFFF" />
 
         <TextView
-            android:id="@+id/save_item_turn"
+            android:id="@+id/attack_player_stats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/save_item_name"
+            android:layout_below="@+id/attack_player_name"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="9dp"
-            android:lines="3"
-            android:layout_toEndOf="@+id/save_item_image"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/attack_player_img"
             android:text="TextView" />
+
+        <Button
+            android:id="@+id/attack_player_attack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="11dp"
+            android:text="Attack"
+            android:textColor="@android:color/holo_red_light" />
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -153,6 +153,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/in_game_attack"
         android:layout_marginTop="10dp"
-        android:text="Use Spells"
+        android:text="Use a Skill"
         android:textColor="#F44336" />
 </RelativeLayout>

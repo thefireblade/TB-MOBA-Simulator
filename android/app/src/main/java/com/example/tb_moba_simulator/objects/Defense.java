@@ -1,16 +1,13 @@
 package com.example.tb_moba_simulator.objects;
 
-public class Defense {
-    private int exp;
-    private int health;
-    private int reward;
-    private String name; // Same as defense type
-    private Character.Team team;
+import java.util.ArrayList;
 
-    public Defense(int exp, int health, int reward, String name, Character.Team team) {
-        this.exp = exp;
-        this.health = health;
-        this.name = name;
-        this.team = team;
+public class Defense extends Mob{
+    public Defense(int hp, int atk, int reward, String name, int exp, Character.Team team) {
+        super(hp, atk, new ArrayList<Item>(), 0.0, reward, name, exp, team);
+    }
+    @Override
+    public Defense cloneSelf(){
+        return new Defense(this.health, this.attack, this.reward, this.name, this.exp, this.team);
     }
 }

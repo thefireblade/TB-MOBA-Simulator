@@ -80,6 +80,7 @@ public class MenuActivity extends AppCompatActivity {
             FirebaseManager.mAuth.signOut();
         }
         Intent loadMenu = new Intent(MenuActivity.this, SplashActivity.class);
+        loadMenu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(loadMenu);
     }
     public static Map<String, Object> JSONStringToMap(String jsonString) {

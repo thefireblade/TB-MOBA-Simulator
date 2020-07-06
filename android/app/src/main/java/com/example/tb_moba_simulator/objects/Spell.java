@@ -4,9 +4,7 @@ public class Spell {
     public enum TargetGroup {
         self, group, other, allies
     }
-    public enum SpellType {
-        health, attack, energy
-    }
+    private Item.ItemBoostType type;
     private String name;
     private String description;
     private int atkPL;
@@ -18,7 +16,8 @@ public class Spell {
     private int atk_scale;
     private int hp_scale;
 
-    public Spell(String name, String description, int atkPL, int base_atk, int cost, int level, TargetGroup targets, int priority, int atk_scale, int hp_scale) {
+
+    public Spell(String name, String description, int atkPL, int base_atk, int cost, int level, TargetGroup targets, int priority, int atk_scale, int hp_scale, Item.ItemBoostType type) {
         this.name = name;
         this.description = description;
         this.atkPL = atkPL;
@@ -29,6 +28,15 @@ public class Spell {
         this.priority = priority;
         this.atk_scale = atk_scale;
         this.hp_scale = hp_scale;
+        this.type = type;
+    }
+
+    public Item.ItemBoostType getType() {
+        return type;
+    }
+
+    public void setType(Item.ItemBoostType type) {
+        this.type = type;
     }
 
     public String getName() {

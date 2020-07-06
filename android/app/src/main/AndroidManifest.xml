@@ -22,6 +22,9 @@
             android:theme="@style/AppTheme.popup"></activity>
         <activity android:name=".InGameActivity" ></activity>
         <activity android:name=".BagsActivity" android:theme="@style/AppTheme.popup"></activity>
+        <activity android:name=".GameMenuActivity" android:theme="@style/AppTheme.popup"></activity>
+        <activity android:name=".GameMapActivity" android:theme="@style/AppTheme.popup"></activity>
+        <activity android:name=".LogActivity" android:theme="@style/AppTheme.popup"></activity>
     </application>
 
 </manifest>

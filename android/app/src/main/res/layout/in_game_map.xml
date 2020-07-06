@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D1CFCB"
+    app:cardCornerRadius="20dp">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/game_map_players"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/game_map_players_title"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/game_map_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Map Name"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/game_map_players_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/game_map_name"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:text="Players in Location:"
+        android:textStyle="bold"  />
+
+    <TextView
+        android:id="@+id/game_map_mobs_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/game_map_players"
+        android:layout_marginTop="15dp"
+        android:textAlignment="center"
+        android:text="Mobs / Defenses in Location:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/game_map_mobs"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/game_map_mobs_title"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/game_map_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/game_map_mobs"
+        android:layout_marginTop="10dp"
+        android:text="Back to Game" />
+</RelativeLayout>

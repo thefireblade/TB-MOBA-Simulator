@@ -12,13 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tb_moba_simulator.GameManager;
+import com.example.tb_moba_simulator.GameMapActivity;
 import com.example.tb_moba_simulator.InGameActivity;
 import com.example.tb_moba_simulator.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagHolderClass>  {
-    ArrayList<Item> items;
+    List<Item> items;
     static class BagHolderClass extends RecyclerView.ViewHolder{
         public TextView bagItemName, bagItemStats;
         public Button sell;
@@ -33,7 +35,7 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagHolde
             this.img = itemView.findViewById(R.id.bag_item_image);
         }
     }
-    public BagListAdapter(ArrayList<Item> items) {
+    public BagListAdapter(List<Item> items) {
         this.items = items;
     }
     @NonNull
@@ -61,18 +63,27 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagHolde
                 @Override
                 public void onClick(View v) {
                     boolean didConsume = GameManager.game.getCurrentPlayer().consumeItem(item);
+                    if(didConsume) {
+                        notifyDataSetChanged();
+                    }
                 }
             });
         }
+        holder.sell.setText("Sell for " +  (int)(item.getCost() / 2));
+        holder.sell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean didSell = GameManager.game.getCurrentPlayer().sellItem(item);
+                if(didSell) {
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return this.items.size();
-    }
-    private void deleteItem(int position){
-        this.items.remove(position);
-        notifyDataSetChanged();
     }
 
 }

@@ -3,8 +3,13 @@ package com.example.tb_moba_simulator.objects;
 
 import android.icu.util.ULocale;
 
+import com.example.tb_moba_simulator.GameManager;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class Character {
     public enum CharacterClass {
@@ -19,7 +24,7 @@ public class Character {
     private int exp;
     private boolean hasMoved;
     private CharacterClass type;
-    private ArrayList<Item> items;
+    private List<Item> items;
     private int currHP, currEnergy;
     private Team team;
     private String name;
@@ -37,11 +42,15 @@ public class Character {
         this.exp = exp;
         this.currHP = baseHp + (getLevel() * hpPT);
         this.currEnergy = baseEnergy + (getLevel() * energyPT);
-        this.items = new ArrayList<Item>();
+        this.items = Collections.synchronizedList(new ArrayList<Item>());
         this.name = name;
         this.team = team;
         spells = new ArrayList<Spell>();
         kills = 0; deaths = 0; assist = 0;
+    }
+
+    public ArrayList<Spell> getSpells() {
+        return spells;
     }
 
     public int getHpPT() {
@@ -136,7 +145,7 @@ public class Character {
         this.type = type;
     }
 
-    public ArrayList<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
@@ -149,7 +158,11 @@ public class Character {
     }
 
     public void setCurrHP(int currHP) {
-        this.currHP = currHP;
+        if(currHP < 0) { this.currHP = 0; }
+        else{ this.currHP = currHP;}
+        if(this.currHP > this.getMaxHealth()) {
+            this.currHP = this.getMaxHealth();
+        }
     }
 
     public int getCurrEnergy() {
@@ -157,7 +170,11 @@ public class Character {
     }
 
     public void setCurrEnergy(int currEnergy) {
-        this.currEnergy = currEnergy;
+        if(currEnergy < 0) { this.currEnergy = 0; }
+        else{ this.currEnergy = currEnergy;}
+        if(this.currEnergy > this.getMaxEnergy()) {
+            this.currEnergy = this.getMaxEnergy();
+        }
     }
 
     public Team getTeam() {
@@ -270,9 +287,83 @@ public class Character {
         }
         return false;
     }
+    public boolean sellItem(Item item) {
+        int index = items.indexOf(item);
+        if(index >= 0) {
+            this.wealth += (int)(item.getCost() / 2);
+            items.remove(index);
+            return true;
+        }
+        return false;
+    }
+
+    public void rest(){
+        this.currHP += (int)Math.floor(getMaxHealth() /2);
+        this.currEnergy += (int)Math.floor(getMaxEnergy() /2);
+        if(this.currHP > getMaxHealth()) {
+            this.currHP = getMaxHealth();
+        }
+        if(this.currEnergy > getMaxEnergy()) {
+            this.currEnergy = getMaxEnergy();
+        }
+    }
+
+    public Spell getRandomUsableSpell() {
+        ArrayList<Spell> usableSpells = new ArrayList<>();
+        for(Spell spell: spells) {
+            if(currEnergy >= spell.getCost() && spell.getLevel() <= this.getLevel()){
+                usableSpells.add(spell);
+            }
+        }
+        Random random = null;
+        if(GameManager.loaded) {
+            random = GameManager.seed;
+        } else {
+            random = new Random();
+        }
+        if(usableSpells.size() == 0) { return null; }
+        return usableSpells.get(random.nextInt(usableSpells.size()));
+    }
+
+    public void attack(Character c) {
+        c.setCurrHP(c.getCurrHP() - this.getCurrAtk());
+    }
+    public void attack(Character c, Spell spell) {
+        c.setCurrHP(c.getCurrHP() - this.getSpellPower(spell));
+    }
+    public void attack(Mob mob) {
+        mob.setHealth(mob.getHealth() - this.getCurrAtk());
+    }
+    public void attack(Mob mob, Spell spell) {
+        mob.setHealth(mob.getHealth() - this.getSpellPower(spell));
+    }
+    public void restore(Spell spell) {
+        switch(spell.getType()) {
+            case energy: this.setCurrEnergy(this.getCurrEnergy() + this.getSpellPower(spell)); break;
+            default: this.setCurrHP(this.getCurrHP() + this.getSpellPower(spell));
+        }
+    }
+    public void restore(Character c, Spell spell) {
+        switch(spell.getType()) {
+            case energy: c.setCurrEnergy(c.getCurrEnergy() + this.getSpellPower(spell)); break;
+            default: c.setCurrHP(c.getCurrHP() + this.getSpellPower(spell));
+        }
+    }
+    public void restore(Mob mob, Spell spell) {
+        switch(spell.getType()) {
+            case health: mob.setHealth(mob.getHealth() + this.getSpellPower(spell)); break;
+            default: ; // Do nothing
+        }
+    }
+    public int getSpellPower(Spell spell) {
+        return spell.getAtk_scale() * (this.getBoost(Item.ItemBoostType.attack) + this.getAtkPT() * getLevel())
+                + spell.getHp_scale() * (this.getBoost(Item.ItemBoostType.health) + this.getHpPT() * getLevel()) +
+                spell.getBase_atk() + spell.getAtkPL() * this.getLevel();
+    }
     public Character cloneSelf(){
         Character newChar = new Character(this.baseHP,this.baseAtk, this.baseDef, this.baseEnergy, this.hpPT, this.atkPT, this.defPT, this.energyPT, this.exp,
                 this.type, this.name, this.team);
+        newChar.getSpells().addAll(this.spells);
         return newChar;
     }
 }

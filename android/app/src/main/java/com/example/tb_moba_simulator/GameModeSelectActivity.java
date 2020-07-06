@@ -39,25 +39,7 @@ public class GameModeSelectActivity extends AppCompatActivity {
         initSpinner();
     }
     private void initList(){
-        gameModes = new ArrayList<Map<String, Object>>();
-        if(FirebaseManager.dbInitialized) {
-            FirebaseManager.db.collection("lands")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Map<String, Object> data = document.getData();
-                                    data.put("name", document.getId());
-                                    adapter.addGameMode(data);
-                                }
-                            } else {
-                                System.out.println(task.getException());
-                            }
-                        }
-                    });
-        }
+        gameModes = GameManager.lands;
     }
     private void initRecyclerView(){
         selectGameModes = findViewById(R.id.game_mode_recycler);

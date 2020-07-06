@@ -19,17 +19,19 @@ import java.util.Map;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SaveObject {
-    private ArrayList<HashMap> defenses, mobs;
+    private ArrayList<HashMap<String, Object>> defenses, mobs;
     private String landType, name, email = null;
-    private HashMap playerInfo;
+    private HashMap<String, Object> playerInfo;
     private int turn;
-    private ArrayList<HashMap> team_0;
-    private ArrayList<HashMap> team_1;
-    private String docID = null;
+    private ArrayList<HashMap<String, Object>> team_0;
+    private ArrayList<HashMap<String, Object>>team_1;
+    private String docID;
+    private String log;
+    private String date;
 
-    public SaveObject(ArrayList<HashMap> defenses, ArrayList<HashMap> mobs,
-                      String landType, String name, HashMap playerInfo,
-                      int turn, ArrayList<HashMap> team_0, ArrayList<HashMap> team_1) {
+    public SaveObject(ArrayList<HashMap<String, Object>> defenses, ArrayList<HashMap<String, Object>> mobs,
+                      String landType, String name, HashMap<String,Object> playerInfo,
+                      int turn, ArrayList<HashMap<String, Object>> team_0, ArrayList<HashMap<String, Object>> team_1, String date, String docID, String log) {
 
         FirebaseManager.mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = FirebaseManager.mAuth.getCurrentUser();
@@ -44,21 +46,48 @@ public class SaveObject {
         this.turn = turn;
         this.team_0 = team_0;
         this.team_1 = team_1;
+        this.date = date;
+        this.docID = docID;
+        this.log = log;
     }
 
-    public ArrayList<HashMap> getDefenses() {
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
+    }
+
+    public String getDocID() {
+        return docID;
+    }
+
+    public void setDocID(String docID) {
+        this.docID = docID;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public ArrayList<HashMap<String, Object>> getDefenses() {
         return defenses;
     }
 
-    public void setDefenses(ArrayList<HashMap> defenses) {
+    public void setDefenses(ArrayList<HashMap<String, Object>> defenses) {
         this.defenses = defenses;
     }
 
-    public ArrayList<HashMap> getMobs() {
+    public ArrayList<HashMap<String, Object>> getMobs() {
         return mobs;
     }
 
-    public void setMobs(ArrayList<HashMap> mobs) {
+    public void setMobs(ArrayList<HashMap<String, Object>> mobs) {
         this.mobs = mobs;
     }
 
@@ -86,14 +115,6 @@ public class SaveObject {
         this.email = email;
     }
 
-    public HashMap getPlayerInfo() {
-        return playerInfo;
-    }
-
-    public void setPlayerInfo(HashMap playerInfo) {
-        this.playerInfo = playerInfo;
-    }
-
     public int getTurn() {
         return turn;
     }
@@ -102,25 +123,34 @@ public class SaveObject {
         this.turn = turn;
     }
 
-    public ArrayList<HashMap> getTeam_0() {
+    public HashMap<String, Object> getPlayerInfo() {
+        return playerInfo;
+    }
+
+    public void setPlayerInfo(HashMap<String, Object> playerInfo) {
+        this.playerInfo = playerInfo;
+    }
+
+    public ArrayList<HashMap<String, Object>> getTeam_0() {
         return team_0;
     }
 
-    public void setTeam_0(ArrayList<HashMap> team_0) {
+    public void setTeam_0(ArrayList<HashMap<String, Object>> team_0) {
         this.team_0 = team_0;
     }
 
-    public ArrayList<HashMap> getTeam_1() {
+    public ArrayList<HashMap<String, Object>> getTeam_1() {
         return team_1;
     }
 
-    public void setTeam_1(ArrayList<HashMap> team_1) {
+    public void setTeam_1(ArrayList<HashMap<String, Object>> team_1) {
         this.team_1 = team_1;
     }
 
     public void delete() {
         if (docID != null) {
             FirebaseManager.db.collection("saves").document(docID).delete();
+            System.out.println("Delete Save initiated for : " + name);
             docID = null;
         }
     }
