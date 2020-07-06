@@ -1,3 +1,7 @@
+/**
+ * Jason Huang
+ * 110779373
+ */
 package com.example.tb_moba_simulator;
 
 import android.content.Intent;

@@ -1,3 +1,7 @@
+/**
+ * Jason Huang
+ * 110779373
+ */
 package com.example.tb_moba_simulator.objects;
 
 import android.view.LayoutInflater;
@@ -16,9 +20,16 @@ import com.example.tb_moba_simulator.R;
 
 import java.util.List;
 
+/**
+ * Class for managing the attack table in-game
+ */
 public class AttackDefenseAdapter extends RecyclerView.Adapter<AttackDefenseAdapter.MapPlayerHolderClass>  {
     List<Mob> defenses;
     InGameActivity context;
+
+    /**
+     * Sub-Class that manages handling the components of a table item
+     */
     static class MapPlayerHolderClass extends RecyclerView.ViewHolder{
         public TextView name, stats;
         public ImageView img;
@@ -31,10 +42,23 @@ public class AttackDefenseAdapter extends RecyclerView.Adapter<AttackDefenseAdap
             this.img = itemView.findViewById(R.id.attack_player_img);
         }
     }
+
+    /**
+     * Constructor for AttackDefenseAdapter
+     * @param defenses a List of defensive structures to be stored in the table cell
+     * @param context The in-game context used for updating the in-game view
+     */
     public AttackDefenseAdapter(List<Mob> defenses, InGameActivity context) {
         this.defenses = defenses;
         this.context = context;
     }
+
+    /**
+     * Creates a View Holder using the layout of attack_player.xml
+     * @param parent View Group
+     * @param viewType View Type
+     * @return Holder class
+     */
     @NonNull
     @Override
     public MapPlayerHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +67,11 @@ public class AttackDefenseAdapter extends RecyclerView.Adapter<AttackDefenseAdap
         return shc;
     }
 
+    /**
+     * Binds the defensive mob to the table cell
+     * @param holder Holder class
+     * @param position Position of the table cell
+     */
     @Override
     public void onBindViewHolder(@NonNull MapPlayerHolderClass holder, final int position) {
         final Mob defense = defenses.get(position);
@@ -65,6 +94,10 @@ public class AttackDefenseAdapter extends RecyclerView.Adapter<AttackDefenseAdap
         });
     }
 
+    /**
+     *  Returns the size of the defenses table
+     * @return size of defenses
+     */
     @Override
     public int getItemCount() {
         return this.defenses.size();

@@ -1,3 +1,7 @@
+/**
+ * Jason Huang
+ * 110779373
+ */
 package com.example.tb_moba_simulator.objects;
 
 import android.view.LayoutInflater;
@@ -16,6 +20,9 @@ import com.example.tb_moba_simulator.R;
 
 import java.util.List;
 
+/**
+ * Class for managing the attack table in-game
+ */
 public class AttackPlayerAdapter extends RecyclerView.Adapter<AttackPlayerAdapter.MapPlayerHolderClass>  {
     List<Character> players;
     InGameActivity context;
@@ -23,6 +30,9 @@ public class AttackPlayerAdapter extends RecyclerView.Adapter<AttackPlayerAdapte
         public TextView name, stats;
         public ImageView img;
         public Button attack;
+        /**
+         * Sub-Class that manages handling the components of a table item
+         */
         public MapPlayerHolderClass(@NonNull View itemView) {
             super(itemView);
             this.name = itemView.findViewById(R.id.attack_player_name);
@@ -31,10 +41,20 @@ public class AttackPlayerAdapter extends RecyclerView.Adapter<AttackPlayerAdapte
             this.img = itemView.findViewById(R.id.attack_player_img);
         }
     }
+    /**
+     * Class for managing the attack table in-game
+     */
     public AttackPlayerAdapter(List<Character> players, InGameActivity context) {
         this.players = players;
         this.context = context;
     }
+
+    /**
+     * Creates a holder for the table item
+     * @param parent ViewGroup
+     * @param viewType View type
+     * @return Holder class
+     */
     @NonNull
     @Override
     public MapPlayerHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +63,11 @@ public class AttackPlayerAdapter extends RecyclerView.Adapter<AttackPlayerAdapte
         return shc;
     }
 
+    /**
+     * Matches the character to the correct table cell elements
+     * @param holder Holder class
+     * @param position Position of table cell
+     */
     @Override
     public void onBindViewHolder(@NonNull MapPlayerHolderClass holder, final int position) {
         final Character player = players.get(position);
@@ -71,6 +96,10 @@ public class AttackPlayerAdapter extends RecyclerView.Adapter<AttackPlayerAdapte
         });
     }
 
+    /**
+     * Return the size of players
+     * @return Get the item count
+     */
     @Override
     public int getItemCount() {
         return this.players.size();
