@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Prepares a simple settings page
+ */
 public class SettingsActivity extends AppCompatActivity {
     private Button backToMenu;
     private Switch darkMode;
@@ -45,6 +48,10 @@ public class SettingsActivity extends AppCompatActivity {
         initControls();
         initPreferences();
     }
+
+    /**
+     * Initializes all of the buttons
+     */
     private void initButtons(){
         backToMenu = findViewById(R.id.settings_back);
         backToMenu.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +61,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Init all of the controls
+     */
     private void initControls(){
         darkMode = findViewById(R.id.settings_theme_mode);
         darkMode.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +81,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Loads all of the user preferences / settings
+     */
     private void initPreferences(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = preferences.getBoolean("darkMode", false);
@@ -82,6 +97,10 @@ public class SettingsActivity extends AppCompatActivity {
         boolean notify = preferences.getBoolean("notify", true);
         pushNotifications.setChecked(notify);
     }
+
+    /**
+     * Save the settings of a user to the cloud
+     */
     private void setSettings(){
         final String userEmail = FirebaseManager.mAuth.getCurrentUser().getEmail();
         Map<String, Object> settings = new HashMap<String, Object>();

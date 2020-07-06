@@ -25,6 +25,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Function that controls the login screen of the application
+ */
 public class SplashActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText email_field, pass_field;
@@ -46,6 +49,10 @@ public class SplashActivity extends AppCompatActivity {
         initButtons();
     }
 
+    /**
+     * Checks if the user is logged in and starts the menu login
+     * @param currentUser
+     */
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
             GameManager.loadDefaultConfiguration();
@@ -54,6 +61,10 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(loadMenu);
         }
     }
+
+    /**
+     * Inits all of the edits text
+     */
     private void initEditText(){
         email_field = findViewById(R.id.login_email);
         pass_field = findViewById(R.id.login_pass);
@@ -79,6 +90,10 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Initializes all of the buttons
+     */
     private void initButtons(){
         thisView = this.getCurrentFocus();
         login_button = findViewById(R.id.login_button2);

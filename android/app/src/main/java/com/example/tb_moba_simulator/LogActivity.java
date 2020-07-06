@@ -17,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tb_moba_simulator.objects.BagListAdapter;
 
+/**
+ * Activity to display the in-game logs
+ */
 public class LogActivity extends AppCompatActivity {
     private TextView logText;
     private Button backGame;
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_log_pop);
@@ -27,6 +31,10 @@ public class LogActivity extends AppCompatActivity {
         initButtons();
         initTextView();
     }
+
+    /**
+     * initialize all of the buttons in the log
+     */
     private void initButtons(){
         backGame = findViewById(R.id.game_log_back);
         backGame.setOnClickListener(new View.OnClickListener() {
@@ -36,11 +44,19 @@ public class LogActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * sets up the log textview
+     */
     public void initTextView(){
         logText = findViewById(R.id.game_log_log);
         logText.setText(GameManager.game.getLog());
         logText.setMovementMethod(new ScrollingMovementMethod());
     }
+
+    /**
+     * Makes the log a pop up
+     */
     private void makeSelfPopUp(){
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

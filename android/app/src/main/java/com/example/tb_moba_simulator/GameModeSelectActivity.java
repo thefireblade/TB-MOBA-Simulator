@@ -28,6 +28,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Activity that controls the selecting of gamemode
+ */
 public class GameModeSelectActivity extends AppCompatActivity {
     private ArrayList<Map<String, Object>> gameModes;
     private GameModeAdapter adapter;
@@ -42,9 +45,17 @@ public class GameModeSelectActivity extends AppCompatActivity {
         initRecyclerView();
         initSpinner();
     }
+
+    /**
+     * The list are initialized here
+     */
     private void initList(){
         gameModes = GameManager.lands;
     }
+
+    /**
+     * Readies the table
+     */
     private void initRecyclerView(){
         selectGameModes = findViewById(R.id.game_mode_recycler);
         adapter = new GameModeAdapter(gameModes, this);
@@ -52,12 +63,20 @@ public class GameModeSelectActivity extends AppCompatActivity {
         selectGameModes.setLayoutManager(manager);
         selectGameModes.setAdapter(adapter);
     }
+
+    /**
+     * Makes the activity a pop up
+     */
     private void makeSelfPopUp(){
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels, height = dm.heightPixels;
         getWindow().setLayout((int)(width*0.85), (int)(height*0.8));
     }
+
+    /**
+     * Prepares the Character class spinner
+     */
     private void initSpinner() {
         spinner = findViewById(R.id.game_mode_spinner);
         spinnerOptions = new ArrayList<>();

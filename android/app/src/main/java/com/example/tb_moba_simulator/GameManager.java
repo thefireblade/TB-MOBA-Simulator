@@ -393,6 +393,12 @@ public class GameManager {
         }
         return lootList;
     }
+
+    /**
+     * loads a save from a save object and queried land data.
+     * @param save the save object to be loaded
+     * @param landData the land data to be loaded
+     */
     public static void loadSave(SaveObject save, Map<String, Object> landData) {
         if(playable) {
             Map<String, Object> playerInfo = save.getPlayerInfo();
@@ -414,6 +420,13 @@ public class GameManager {
             loadDefaultConfiguration();
         }
     }
+
+    /**
+     * Parses queried playerInfo from a save Object into a character and links them to locations
+     * @param playerInfo the playerInfo of a save object
+     * @param locations the locations to be linked
+     * @return a character object parsed from player info
+     */
     private static Character parsePlayerInfo(Map<String, Object> playerInfo, ArrayList<Location> locations) {
         Character.CharacterClass type = Character.CharacterClass.valueOf((String)playerInfo.get("character"));
         Character player = loadNewClass(type);
@@ -439,6 +452,13 @@ public class GameManager {
         }
         return player;
     }
+
+    /**
+     * parses defensive structures from a save object into an array of defense objects
+     * @param defenses the data to be parsed
+     * @param locations the locations to be linked
+     * @return A list of defenses
+     */
     private static ArrayList<Mob> parseDefense(ArrayList<Map<String, Object>> defenses, ArrayList<Location> locations){
         ArrayList<Mob> mobs = new ArrayList<>();
         for(Map<String, Object> defenseMap: defenses){
@@ -458,6 +478,11 @@ public class GameManager {
         }
         return mobs;
     }
+
+    /**
+     * Checks the win condition and displays the win information in a given Context 'context'
+     * @param context the context to display win conditions
+     */
     public static void checkWin(final Context context) {
         Character.Team winningTeam = game.didWin();
         if(winningTeam != Character.Team.na) {

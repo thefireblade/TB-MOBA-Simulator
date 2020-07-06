@@ -45,6 +45,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * The activity that controls the menu
+ */
 public class MenuActivity extends AppCompatActivity {
     private Button newGame, settings, loadSave, signOut;
     private FirebaseUser currentUser;
@@ -62,6 +65,10 @@ public class MenuActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.cancel(101420);
     }
+
+    /**
+     * Initializes all of the buttons
+     */
     private void initButtons() {
         newGame = findViewById(R.id.menu_start);
         newGame.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +102,10 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Signs the current user out of Firebase Authentication
+     */
     private void signOut(){
         if (currentUser != null) {
             FirebaseManager.mAuth.signOut();
@@ -103,11 +114,23 @@ public class MenuActivity extends AppCompatActivity {
         loadMenu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(loadMenu);
     }
+
+    /**
+     * Not used
+     * @param jsonString
+     * @return
+     */
     public static Map<String, Object> JSONStringToMap(String jsonString) {
         HashMap<String, Object> yourHashMap = new Gson().fromJson(jsonString.toString(), HashMap.class);
         return yourHashMap;
     }
 
+    /**
+     * Not used
+     * @param path
+     * @return
+     * @throws IOException
+     */
     public String readFile(String path) throws IOException {
         String filePath = new File("").getAbsolutePath();
         filePath.concat(path);
@@ -122,6 +145,10 @@ public class MenuActivity extends AppCompatActivity {
     public Context getSelf() {
         return this;
     }
+
+    /**
+     * Loads all of the settings in for a user
+     */
     public void loadSettings() {
         if(GameManager.settings) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

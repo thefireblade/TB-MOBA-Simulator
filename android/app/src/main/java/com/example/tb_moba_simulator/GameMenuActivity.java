@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tb_moba_simulator.objects.BagListAdapter;
 import com.example.tb_moba_simulator.objects.Game;
 
+/**
+ * Activity that manages the view of the in-game menu
+ */
 public class GameMenuActivity extends AppCompatActivity {
     private Button backGame, saveGame, exitToMenu, settings, loadGame;
     private EditText saveText;
@@ -28,10 +31,18 @@ public class GameMenuActivity extends AppCompatActivity {
         initButtons();
         initEditText();
     }
+
+    /**
+     * Initializes the Game name
+     */
     private void initEditText (){
         saveText = findViewById(R.id.game_menu_edit_text);
         saveText.setText(GameManager.game.getGameName());
     }
+
+    /**
+     * Initializes the buttons
+     */
     private void initButtons(){
         backGame = findViewById(R.id.game_menu_back);
         backGame.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +86,10 @@ public class GameMenuActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Makes the activity a popup
+     */
     private void makeSelfPopUp(){
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

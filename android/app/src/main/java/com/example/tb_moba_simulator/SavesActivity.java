@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The activity the controls the loading and deleting of save objects
+ */
 public class SavesActivity extends AppCompatActivity {
     private RecyclerView saves;
     private Button backToMenu;
@@ -40,6 +43,10 @@ public class SavesActivity extends AppCompatActivity {
         initButtons();
         initList();
     }
+
+    /**
+     * Query all of the saves of a user
+     */
     private void initList(){
         FirebaseManager.db.collection("saves")
                 .whereEqualTo("user", FirebaseManager.mAuth.getCurrentUser().getEmail())
@@ -58,6 +65,12 @@ public class SavesActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     * Parses save data into a save object and add them to the table
+     * @param data save data
+     * @param docID the document ID of the save data
+     */
     private void parseSaveData(Map<String,Object> data, String docID) {
         SaveObject save = new SaveObject(
                 (ArrayList<Map<String,Object>>) data.get("defenses"),
@@ -74,6 +87,10 @@ public class SavesActivity extends AppCompatActivity {
         );
         adapter.addItem(save);
     }
+
+    /**
+     * Initializes all of the buttons
+     */
     private void initButtons(){
         backToMenu = findViewById(R.id.saves_back);
         backToMenu.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +100,10 @@ public class SavesActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Initialize the save table
+     */
     private void initRecyclerView(){
         saves = findViewById(R.id.saves_recyclerview);
         adapter = new SaveListAdapter(saveObjects, this);

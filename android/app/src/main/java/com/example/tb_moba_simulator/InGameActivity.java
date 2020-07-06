@@ -42,6 +42,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Stack;
 
+/**
+ * The activity that controls all of the views in game
+ */
 public class InGameActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "TBMOBA_12213";
     private ImageView charIcon;
@@ -55,7 +58,7 @@ public class InGameActivity extends AppCompatActivity {
     private Switch sortSwitch;
     private final String SHOP = "What to buy?", MOVE = "Where would you like to go?",
             ATTACK = "Select a target to attack", SPELL = "SPELL", DEFAULT_PROMPT = "What will you do?";
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
@@ -70,9 +73,17 @@ public class InGameActivity extends AppCompatActivity {
         createNotificationChannel();
         startNotification();
     }
+
+    /**
+     * Initializes all the text views
+     */
     private void initTextView(){
         prompt = findViewById(R.id.in_game_prompt);
     }
+
+    /**
+     * Initializes all of the image view
+     */
     private void initImageView(){
         charIcon = findViewById(R.id.in_game_character);
         switch (GameManager.selectedType) {
@@ -82,10 +93,18 @@ public class InGameActivity extends AppCompatActivity {
             default: charIcon.setImageResource(R.drawable.sword);
         }
     }
+
+    /**
+     * Initializes player info
+     */
     private void initPlayerInfo(){
         player_info = findViewById(R.id.in_game_player);
         updatePlayerInfo();
     }
+
+    /**
+     * Makes an update to the player info textview
+     */
     public void updatePlayerInfo(){
         Character player = GameManager.game.getCurrentPlayer();
         int health  = player.getCurrHP(), attack = player.getCurrAtk(), energy = player.getCurrEnergy(), exp = player.getExp();
@@ -97,10 +116,18 @@ public class InGameActivity extends AppCompatActivity {
         text += "\nEXP:\t\t\t\t" + exp;
         player_info.setText(text);
     }
+
+    /**
+     * Initializes player stats textview (updates view)
+     */
     public void initPlayerStats(){
         player_stats = findViewById(R.id.in_game_stats);
         updatePlayerStats();
     }
+
+    /**
+     * Makes an update to the player stats textview (updates view)
+     */
     public void updatePlayerStats(){
         Character player = GameManager.game.getCurrentPlayer();
         String text = "";
@@ -110,9 +137,17 @@ public class InGameActivity extends AppCompatActivity {
         text += "\nTurn #:\t" + GameManager.game.getTurnCount();
         player_stats.setText(text);
     }
+
+    /**
+     * Map the table to an ID
+     */
     private void initRecyclerView(){
         decisionTable = findViewById(R.id.in_game_recycler);
     }
+
+    /**
+     * Initialize all buttons and switches
+     */
     private void initButtons(){
         bagButton = findViewById(R.id.in_game_bag);
         bagButton.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +189,10 @@ public class InGameActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Pops the tableview stack so that the table can be reloaded
+     */
     public void popRecyclerStack(){
         if(recyclerStack.size() > 0) {
             String popped = recyclerStack.pop();
@@ -164,9 +203,18 @@ public class InGameActivity extends AppCompatActivity {
         }
         prompt.setText(DEFAULT_PROMPT);
     }
+
+    /**
+     * Gets the context of self for displaying
+     * @return this
+     */
     private Context getSelf() {
         return this;
     }
+
+    /**
+     * Prepares the in-game buttons to run the game
+     */
     private void initGameButtons(){
         shopButton = findViewById(R.id.in_game_shop);
         shopButton.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +294,10 @@ public class InGameActivity extends AppCompatActivity {
         showGameButtons();
         hideRecycler();
     }
+
+    /**
+     * Hides all of the ingame buttons when laoding a table in its place
+     */
     public void hideGameButtons(){
         shopButton.setVisibility(View.GONE);
         restButton.setVisibility(View.GONE);
@@ -253,6 +305,10 @@ public class InGameActivity extends AppCompatActivity {
         attackButton.setVisibility(View.GONE);
         spellButton.setVisibility(View.GONE);
     }
+
+    /**
+     * Create notification channel (Code taken from stack overflow)
+     */
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -268,6 +324,10 @@ public class InGameActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    /**
+     * Starts a notification that a game is ongoing
+     */
     private void startNotification(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean notify = preferences.getBoolean("notify", false);
@@ -287,6 +347,10 @@ public class InGameActivity extends AppCompatActivity {
             notificationManager.cancel(101420);
         }
     }
+
+    /**
+     * Reveal game buttons after hiding the table
+     */
     public void showGameButtons(){
         if(GameManager.game.isPlayerAtBase()) {
             shopButton.setVisibility(View.VISIBLE);
@@ -303,10 +367,18 @@ public class InGameActivity extends AppCompatActivity {
         spellButton.setVisibility(View.GONE);
 //        spellButton.setVisibility(View.VISIBLE); // Spells are deprecated because I don't have enough time to implement it
     }
+
+    /**
+     * hide the table and it's elements
+     */
     public void hideRecycler(){
         decisionTable.setVisibility(View.GONE);
         sortSwitch.setVisibility(View.GONE);
     }
+
+    /**
+     * show the shop
+     */
     private void showShop(){
         sortSwitch.setVisibility(View.VISIBLE);
         ShopListAdapter adapter = new ShopListAdapter(GameManager.game.getShop(), this);
@@ -315,6 +387,10 @@ public class InGameActivity extends AppCompatActivity {
         decisionTable.setAdapter(adapter);
         decisionTable.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * show moves on table
+     */
     public void showMoveLocations(){
         Character player = GameManager.game.getCurrentPlayer();
         GameMoveAdapter adapter = new GameMoveAdapter(GameManager.game.locatePlayer(player).getConnects(), this);
@@ -324,6 +400,9 @@ public class InGameActivity extends AppCompatActivity {
         decisionTable.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Show all entities that you can attack -> players > defenses
+     */
     public void showAttackOptions(){
         Character player = GameManager.game.getCurrentPlayer();
         Location playerLocation = GameManager.game.locatePlayer(player);
