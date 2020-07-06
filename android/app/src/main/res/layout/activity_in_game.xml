@@ -31,14 +31,14 @@
 
     <TextView
         android:id="@+id/in_game_prompt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/in_game_character"
         android:layout_marginBottom="20dp"
         android:layout_toRightOf="@id/in_game_back"
         android:fontFamily="monospace"
         android:text="What will you do?"
-        android:textAlignment="center"
+        android:textAlignment="inherit"
         android:textSize="18sp" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -155,4 +155,13 @@
         android:layout_marginTop="10dp"
         android:text="Use a Skill"
         android:textColor="#F44336" />
+
+    <Switch
+        android:id="@+id/in_game_sort_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/in_game_stats"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:text="Sort Cost Desc" />
 </RelativeLayout>

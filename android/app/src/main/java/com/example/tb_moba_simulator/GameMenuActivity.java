@@ -15,7 +15,7 @@ import com.example.tb_moba_simulator.objects.BagListAdapter;
 import com.example.tb_moba_simulator.objects.Game;
 
 public class GameMenuActivity extends AppCompatActivity {
-    private Button backGame, saveGame, exitToMenu, settings;
+    private Button backGame, saveGame, exitToMenu, settings, loadGame;
     private EditText saveText;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +52,22 @@ public class GameMenuActivity extends AppCompatActivity {
                 GameManager.game.setGameName(saveText.getText().toString());
                 GameManager.game.saveGame();
                 finish();
+            }
+        });
+        loadGame = findViewById(R.id.game_menu_load);
+        loadGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameMenuActivity.this, SavesActivity.class);
+                startActivity(intent);
+            }
+        });
+        settings = findViewById(R.id.game_menu_settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent settings = new Intent(GameMenuActivity.this, SettingsActivity.class);
+                startActivity(settings);
             }
         });
     }

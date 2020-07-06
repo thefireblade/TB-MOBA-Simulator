@@ -11,6 +11,7 @@ public interface Game {
     public void addAI(Character c, Character.Team team);
     public void addPlayer(Character.Team team);
     public void addMob(Mob mob);
+    public void addMobs(List<Mob> mob);
     public Character getCurrentPlayer();
     public int getTurnCount();
     public boolean isPlayerAtBase();
@@ -23,4 +24,5 @@ public interface Game {
     public void basicAttack(Character c, Mob mob, Character player);
     public boolean locationHasEnemyPlayer(Location loc, Character.Team team);
     public boolean locationHasEnemy(Location loc, Character.Team team);
+    public Character.Team didWin();
 }

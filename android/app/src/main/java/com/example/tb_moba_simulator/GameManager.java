@@ -1,5 +1,9 @@
 package com.example.tb_moba_simulator;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -38,6 +42,7 @@ public class GameManager {
     public static ArrayList<Map<String, Object>> lands;
     public static ArrayList<Mob> mobs;
     public static ArrayList<Defense> defenses;
+    public static boolean settings = false;
     public static void initGameMode(Map<String, Object> landData) {
         if(playable) {
             if(!(Boolean) landData.get("multiplayer")) {
@@ -312,10 +317,15 @@ public class GameManager {
             player.setTeam(Character.Team.team_0);
             Map<String, Object> ai = save.getTeam_1().get(0);
             Character bot = parsePlayerInfo(ai, locations);
-            bot.setTeam(Character.Team.team_1);
             ArrayList<Location> startLocations = parseStartLocations((Map<String, Object>) landData.get("start_locations"), locations);
             game = new SoloGame(player, locations, mobs, FirebaseManager.mAuth.getCurrentUser().getEmail(), startLocations, defenses,
                     save.getLog(), save.getName());
+//            game.loadMap();
+            game.addAI(bot, Character.Team.team_1);
+            ArrayList<Mob> defenseMobs = parseDefense(save.getDefenses(), locations);
+            game.addMobs(defenseMobs);
+            loaded = true;
+            game.getShop().addAll(purchasableItems);
         } else {
             loadDefaultConfiguration();
         }
@@ -329,6 +339,7 @@ public class GameManager {
         player.setCurrHP((int) Double.parseDouble(playerInfo.get("health").toString()));
         player.setKills((int) Double.parseDouble(playerInfo.get("kills").toString()));
         player.setDeaths((int) Double.parseDouble(playerInfo.get("deaths").toString()));
+        player.setName((String)playerInfo.get("name"));
         ArrayList<Item> playerItems = new ArrayList<>();
         for(String itemName: (ArrayList<String>)playerInfo.get("items")) {
             for(Item item: allItems) {
@@ -344,4 +355,50 @@ public class GameManager {
         }
         return player;
     }
+    private static ArrayList<Mob> parseDefense(ArrayList<Map<String, Object>> defenses, ArrayList<Location> locations){
+        ArrayList<Mob> mobs = new ArrayList<>();
+        for(Map<String, Object> defenseMap: defenses){
+            Mob mob = new Defense(
+                    (int) Double.parseDouble(defenseMap.get("health").toString()),
+                    0,
+                    0,
+                    (String)defenseMap.get("name"),
+                    0,
+                    Character.Team.valueOf((String)defenseMap.get("team"))
+            );
+            for(Location l : locations) {
+                if(l.getName().equals((String)defenseMap.get("location"))) {
+                    l.getEntities().add(mob);
+                }
+            }
+        }
+        return mobs;
+    }
+    public static void checkWin(final Context context) {
+        Character.Team winningTeam = game.didWin();
+        if(winningTeam != Character.Team.na) {
+            String title = "", message = "";
+            if(game.getCurrentPlayer().getTeam().equals(winningTeam)) {
+                title = "You have won!";
+                message = "You have successfully defeated all enemy structures!";
+            } else {
+                title = "You have Lost!";
+                message = "All of your structures have been taken by the enemy!";
+            }
+            new AlertDialog.Builder(context)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(context, MenuActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
+    }
+
 }

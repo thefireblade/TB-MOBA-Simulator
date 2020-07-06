@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tb_moba_simulator.GameManager;
 import com.example.tb_moba_simulator.InGameActivity;
 import com.example.tb_moba_simulator.R;
 
@@ -53,7 +54,13 @@ public class AttackDefenseAdapter extends RecyclerView.Adapter<AttackDefenseAdap
         holder.attack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                GameManager.game.basicAttack(GameManager.game.getCurrentPlayer(), defense, null);
+                GameManager.checkWin(context);
+                GameManager.game.simulateTurn();
+                context.popRecyclerStack();
+                context.updatePlayerStats();
+                context.updatePlayerInfo();
+                GameManager.checkWin(context);
             }
         });
     }

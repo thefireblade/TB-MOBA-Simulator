@@ -56,14 +56,14 @@ public class SavesActivity extends AppCompatActivity {
     }
     private void parseSaveData(Map<String,Object> data, String docID) {
         SaveObject save = new SaveObject(
-                (ArrayList<HashMap<String,Object>>) data.get("defenses"),
-                (ArrayList<HashMap<String,Object>>) data.get("mobs"),
+                (ArrayList<Map<String,Object>>) data.get("defenses"),
+                (ArrayList<Map<String,Object>>) data.get("mobs"),
                 (String)data.get("landtype"),
                 (String)data.get("name"),
                 (HashMap<String,Object>)data.get("playerInfo"),
                 (int)Double.parseDouble(data.get("turn").toString()),
-                (ArrayList<HashMap<String,Object>>) data.get("team_0"),
-                (ArrayList<HashMap<String,Object>>) data.get("team_1"),
+                (ArrayList<Map<String,Object>>) data.get("team_0"),
+                (ArrayList<Map<String,Object>>) data.get("team_1"),
                 (String)data.get("date"),
                 docID,
                 (String)data.get("log")

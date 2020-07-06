@@ -1,6 +1,7 @@
 package com.example.tb_moba_simulator.objects;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tb_moba_simulator.FirebaseManager;
 import com.example.tb_moba_simulator.GameManager;
+import com.example.tb_moba_simulator.InGameActivity;
 import com.example.tb_moba_simulator.R;
 
 import java.util.ArrayList;
@@ -65,6 +67,9 @@ public class SaveListAdapter extends RecyclerView.Adapter<SaveListAdapter.SaveHo
             @Override
             public void onClick(View view) {
                 GameManager.loadSave(currSave, GameManager.lands.get(0));
+                Intent intent = new Intent(context, InGameActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }

@@ -1,14 +1,23 @@
 package com.example.tb_moba_simulator;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,29 +34,40 @@ import com.example.tb_moba_simulator.objects.SaveListAdapter;
 import com.example.tb_moba_simulator.objects.ShopListAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Stack;
 
 public class InGameActivity extends AppCompatActivity {
+    private static final String CHANNEL_ID = "TBMOBA_12213";
     private ImageView charIcon;
     private TextView player_info, player_stats;
-    private TextView turnsText;
+    private TextView prompt;
     private RecyclerView decisionTable;
     private Button backButton;
     private Button bagButton, mapButton, logButton, menuButton;
     private Button shopButton, restButton, moveButton, attackButton, spellButton;
     private Stack<String> recyclerStack;
-    private final String SHOP = "SHOP", MOVE = "MOVE", ATTACK = "ATTACK", SPELL = "SPELL";
+    private Switch sortSwitch;
+    private final String SHOP = "What to buy?", MOVE = "Where would you like to go?",
+            ATTACK = "Select a target to attack", SPELL = "SPELL", DEFAULT_PROMPT = "What will you do?";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
         initImageView();
         initRecyclerView();
+        initTextView();
         recyclerStack = new Stack<>();
         initPlayerInfo();
         initPlayerStats();
         initButtons();
         initGameButtons();
+        createNotificationChannel();
+        startNotification();
+    }
+    private void initTextView(){
+        prompt = findViewById(R.id.in_game_prompt);
     }
     private void initImageView(){
         charIcon = findViewById(R.id.in_game_character);
@@ -138,6 +158,10 @@ public class InGameActivity extends AppCompatActivity {
             hideRecycler();
             showGameButtons();
         }
+        prompt.setText(DEFAULT_PROMPT);
+    }
+    private Context getSelf() {
+        return this;
     }
     private void initGameButtons(){
         shopButton = findViewById(R.id.in_game_shop);
@@ -145,6 +169,7 @@ public class InGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 recyclerStack.push(SHOP);
+                prompt.setText(SHOP);
                 hideGameButtons();
                 showShop();
             }
@@ -158,6 +183,7 @@ public class InGameActivity extends AppCompatActivity {
                 updatePlayerInfo();
                 updatePlayerStats();
                 GameManager.game.simulateTurn();
+                GameManager.checkWin(getSelf());
             }
         });
         moveButton = findViewById(R.id.in_game_move);
@@ -165,6 +191,7 @@ public class InGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 recyclerStack.push(MOVE);
+                prompt.setText(MOVE);
                 hideGameButtons();
                 showMoveLocations();
             }
@@ -176,9 +203,41 @@ public class InGameActivity extends AppCompatActivity {
                 showAttackOptions();
                 hideGameButtons();
                 recyclerStack.push(ATTACK);
+                prompt.setText(ATTACK);
             }
         });
         spellButton = findViewById(R.id.in_game_spells);
+        sortSwitch = findViewById(R.id.in_game_sort_switch);
+        Collections.sort(GameManager.game.getShop(), new Comparator<Item>() {
+            @Override
+            public int compare(Item u1, Item u2) {
+                return ((Integer) u2.getCost()).compareTo((Integer) u1.getCost());
+            }
+        });
+        sortSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sortSwitch.isChecked()) {
+                    Collections.sort(GameManager.game.getShop(), new Comparator<Item>() {
+                        @Override
+                        public int compare(Item u1, Item u2) {
+                            return ((Integer) u1.getCost()).compareTo((Integer) u2.getCost());
+                        }
+                    });
+                    sortSwitch.setText("Sort Cost Asc");
+                    showShop();
+                } else {
+                    Collections.sort(GameManager.game.getShop(), new Comparator<Item>() {
+                        @Override
+                        public int compare(Item u1, Item u2) {
+                            return ((Integer) u2.getCost()).compareTo((Integer) u1.getCost());
+                        }
+                    });
+                    sortSwitch.setText("Sort Cost Desc");
+                    showShop();
+                }
+            }
+        });
         hideGameButtons();
         showGameButtons();
         hideRecycler();
@@ -189,6 +248,40 @@ public class InGameActivity extends AppCompatActivity {
         moveButton.setVisibility(View.GONE);
         attackButton.setVisibility(View.GONE);
         spellButton.setVisibility(View.GONE);
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    private void startNotification(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean notify = preferences.getBoolean("notify", false);
+        if(notify){
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.splashlogo_tbmoba)
+                    .setContentTitle("TBMOBA")
+                    .setContentText("Ongoing Game")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setOngoing(true);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            // notificationId is a unique int for each notification that you must define
+            int notificationId = 101420;
+            notificationManager.notify(notificationId, builder.build());
+        } else {
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.cancel(101420);
+        }
     }
     public void showGameButtons(){
         if(GameManager.game.isPlayerAtBase()) {
@@ -208,8 +301,10 @@ public class InGameActivity extends AppCompatActivity {
     }
     public void hideRecycler(){
         decisionTable.setVisibility(View.GONE);
+        sortSwitch.setVisibility(View.GONE);
     }
     private void showShop(){
+        sortSwitch.setVisibility(View.VISIBLE);
         ShopListAdapter adapter = new ShopListAdapter(GameManager.game.getShop(), this);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         decisionTable.setLayoutManager(manager);
@@ -262,6 +357,7 @@ public class InGameActivity extends AppCompatActivity {
     public void onResume(){
         updatePlayerStats();
         updatePlayerInfo();
+        startNotification();
         super.onResume();
     }
 }

@@ -26,11 +26,20 @@
         android:textSize="36sp"
         android:textStyle="bold" />
 
+
+    <Button
+        android:id="@+id/game_menu_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/game_menu_save"
+        android:layout_marginTop="25dp"
+        android:textSize="18sp"
+        android:text="Load a Save" />
     <Button
         android:id="@+id/game_menu_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/game_menu_save"
+        android:layout_below="@+id/game_menu_load"
         android:layout_marginTop="25dp"
         android:textSize="18sp"
         android:text="Settings" />

@@ -19,19 +19,19 @@ import java.util.Map;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SaveObject {
-    private ArrayList<HashMap<String, Object>> defenses, mobs;
+    private ArrayList<Map<String, Object>> defenses, mobs;
     private String landType, name, email = null;
-    private HashMap<String, Object> playerInfo;
+    private Map<String, Object> playerInfo;
     private int turn;
-    private ArrayList<HashMap<String, Object>> team_0;
-    private ArrayList<HashMap<String, Object>>team_1;
+    private ArrayList<Map<String, Object>> team_0;
+    private ArrayList<Map<String, Object>>team_1;
     private String docID;
     private String log;
     private String date;
 
-    public SaveObject(ArrayList<HashMap<String, Object>> defenses, ArrayList<HashMap<String, Object>> mobs,
-                      String landType, String name, HashMap<String,Object> playerInfo,
-                      int turn, ArrayList<HashMap<String, Object>> team_0, ArrayList<HashMap<String, Object>> team_1, String date, String docID, String log) {
+    public SaveObject(ArrayList<Map<String, Object>> defenses, ArrayList<Map<String, Object>> mobs,
+                      String landType, String name, Map<String,Object> playerInfo,
+                      int turn, ArrayList<Map<String, Object>> team_0, ArrayList<Map<String, Object>> team_1, String date, String docID, String log) {
 
         FirebaseManager.mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = FirebaseManager.mAuth.getCurrentUser();
@@ -49,6 +49,42 @@ public class SaveObject {
         this.date = date;
         this.docID = docID;
         this.log = log;
+    }
+
+    public void setDefenses(ArrayList<Map<String, Object>> defenses) {
+        this.defenses = defenses;
+    }
+
+    public ArrayList<Map<String, Object>> getMobs() {
+        return mobs;
+    }
+
+    public void setMobs(ArrayList<Map<String, Object>> mobs) {
+        this.mobs = mobs;
+    }
+
+    public Map<String, Object> getPlayerInfo() {
+        return playerInfo;
+    }
+
+    public void setPlayerInfo(Map<String, Object> playerInfo) {
+        this.playerInfo = playerInfo;
+    }
+
+    public ArrayList<Map<String, Object>> getTeam_0() {
+        return team_0;
+    }
+
+    public void setTeam_0(ArrayList<Map<String, Object>> team_0) {
+        this.team_0 = team_0;
+    }
+
+    public ArrayList<Map<String, Object>> getTeam_1() {
+        return team_1;
+    }
+
+    public void setTeam_1(ArrayList<Map<String, Object>> team_1) {
+        this.team_1 = team_1;
     }
 
     public String getLog() {
@@ -75,20 +111,8 @@ public class SaveObject {
         this.date = date;
     }
 
-    public ArrayList<HashMap<String, Object>> getDefenses() {
+    public ArrayList<Map<String, Object>> getDefenses() {
         return defenses;
-    }
-
-    public void setDefenses(ArrayList<HashMap<String, Object>> defenses) {
-        this.defenses = defenses;
-    }
-
-    public ArrayList<HashMap<String, Object>> getMobs() {
-        return mobs;
-    }
-
-    public void setMobs(ArrayList<HashMap<String, Object>> mobs) {
-        this.mobs = mobs;
     }
 
     public String getLandType() {
@@ -123,29 +147,11 @@ public class SaveObject {
         this.turn = turn;
     }
 
-    public HashMap<String, Object> getPlayerInfo() {
-        return playerInfo;
-    }
 
     public void setPlayerInfo(HashMap<String, Object> playerInfo) {
         this.playerInfo = playerInfo;
     }
 
-    public ArrayList<HashMap<String, Object>> getTeam_0() {
-        return team_0;
-    }
-
-    public void setTeam_0(ArrayList<HashMap<String, Object>> team_0) {
-        this.team_0 = team_0;
-    }
-
-    public ArrayList<HashMap<String, Object>> getTeam_1() {
-        return team_1;
-    }
-
-    public void setTeam_1(ArrayList<HashMap<String, Object>> team_1) {
-        this.team_1 = team_1;
-    }
 
     public void delete() {
         if (docID != null) {

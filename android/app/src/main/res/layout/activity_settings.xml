@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/settings_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_below="@id/settings_theme_mode"
+        tools:layout_editor_absoluteX="136dp"
+        android:layout_marginTop="20dp"
+        tools:layout_editor_absoluteY="67dp" />
+
+    <CheckBox
+        android:id="@+id/settings_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:layout_below="@id/settings_title"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:text="Allow Notifications" />
+
+    <Switch
+        android:id="@+id/settings_theme_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/settings_notification"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:textSize="20dp"
+        android:text="Light Mode" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/settings_title"
+        android:layout_width="match_parent"
+        android:textSize="48dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:text="Settings" />
+</RelativeLayout>

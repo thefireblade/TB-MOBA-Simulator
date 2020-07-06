@@ -1,7 +1,9 @@
 package com.example.tb_moba_simulator.objects;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import javax.xml.transform.Templates;
 
 public class GameMoveAdapter extends RecyclerView.Adapter<GameMoveAdapter.GameModeHolderClass>  {
     List<Location> locations;
@@ -59,6 +63,7 @@ public class GameMoveAdapter extends RecyclerView.Adapter<GameMoveAdapter.GameMo
                 context.popRecyclerStack();
                 context.updatePlayerInfo();
                 context.updatePlayerStats();
+                GameManager.checkWin(context);
 //                Handler handler = new Handler();
 //                handler.postDelayed(new Runnable() {
 //                    public void run() {

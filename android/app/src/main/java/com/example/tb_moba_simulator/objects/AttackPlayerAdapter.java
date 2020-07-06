@@ -61,10 +61,12 @@ public class AttackPlayerAdapter extends RecyclerView.Adapter<AttackPlayerAdapte
             @Override
             public void onClick(View view) {
                 GameManager.game.basicAttack(GameManager.game.getCurrentPlayer(), null, player);
+                GameManager.checkWin(context);
                 GameManager.game.simulateTurn();
                 context.popRecyclerStack();
                 context.updatePlayerStats();
                 context.updatePlayerInfo();
+                GameManager.checkWin(context);
             }
         });
     }

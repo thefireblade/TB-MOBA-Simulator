@@ -186,9 +186,33 @@ public class SoloGame implements Game {
         sortMobsToTiers();
 //        spawnMobs();
         spawnDefenses();
-        System.out.println("Simulated a turn");
     }
-
+    @Override
+    public Character.Team didWin(){
+        for(Character.Team team: Character.Team.values()) {
+            if(team.equals(team.na)) {
+                continue;
+            }
+            boolean teamLost = true;
+            for(Location l: locations) {
+                for(Mob mob: l.getEntities()) {
+                    if(mob.getTeam().equals(team)) {
+                        teamLost = false;
+                    }
+                }
+                if(!teamLost) {
+                    break;
+                }
+            }
+            if(teamLost) {
+                switch(team){
+                    case team_0: return Character.Team.team_1;
+                    default: return Character.Team.team_0;
+                }
+            }
+        }
+        return Character.Team.na;
+    }
     @Override
     public int simulateTurn() {
         for(Character bot: ai) {
@@ -200,8 +224,8 @@ public class SoloGame implements Game {
                 System.out.println("Failed to make a decision for " + bot.getName());
                 newLogEntry(bot.getName() + " did nothing.");
             }
-            bot.setExp(bot.getExp() + 2);
-            bot.setWealth(bot.getWealth() + 1);
+            bot.setExp(bot.getExp() + 1);
+            bot.setWealth(bot.getWealth() + 3);
         }
 //        for(Mob mob: aiMobs) {
 //            if(!decisionMaker(mob)){
@@ -325,8 +349,8 @@ public class SoloGame implements Game {
                 c.setKills(c.getKills() + 1);
                 player.setDeaths(player.getDeaths() + 1);
                 getTeamStartLocation(player.getTeam()).getPlayers().add(player);
-                newLogEntry(player.getName() + " has been slain by " + c.getName() + " for 5 wealth and has been recalled to base.");
-                c.setWealth(c.getWealth() + 5);
+                newLogEntry(player.getName() + " has been slain by " + c.getName() + " for 5 exp and has been recalled to base.");
+                c.setExp(c.getExp() + 5);
             }
         }
     }
@@ -550,6 +574,7 @@ public class SoloGame implements Game {
         data.put("log", log);
         data.put("mobs", new ArrayList<>());
         data.put("playerInfo", parsePlayer(player));
+
         for(Character.Team team : Character.Team.values()) {
             if(team.equals(team.na)) {
                 continue;
@@ -606,6 +631,7 @@ public class SoloGame implements Game {
         playerInfo.put("wealth", c.getWealth());
         playerInfo.put("deaths", c.getDeaths());
         playerInfo.put("kills", c.getKills());
+        playerInfo.put("name", c.getName());
         List<String> items = new ArrayList<>();
         for(Item item : c.getItems()) {
             items.add(item.getName());
@@ -679,5 +705,9 @@ public class SoloGame implements Game {
     @Override
     public void addMob(Mob mob){
         mobs.add(mob);
+    }
+    @Override
+    public void addMobs(List<Mob> mob){
+        mobs.addAll(mob);
     }
 }
