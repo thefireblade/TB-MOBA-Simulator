@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * A class that implements the Game class and defines what is necessary for a single-player game
+ */
 public class SoloGame implements Game {
     private final int mobSpawnRate = 5;
     private int turnCount;
@@ -35,6 +38,16 @@ public class SoloGame implements Game {
     private String log;
     private Map<Character.Team, Integer> mobTiers;
     private ArrayList<Map<Character, Spell>> attackQueue;
+
+    /**
+     * Solo game constructor
+     * @param player The Character object for the player
+     * @param locations The locations of the game (All linked together beforehand)
+     * @param mobs The possible mobs that can be spawned in a game
+     * @param userEmail The email of the user
+     * @param startLocations The start locations for each team
+     * @param defenses The defensive structures that can be spawned
+     */
     public SoloGame(Character player,
                     ArrayList<Location> locations, ArrayList<Mob> mobs, String userEmail, ArrayList<Location> startLocations, ArrayList<Defense> defenses) {
         this.turnCount = 1;
@@ -51,6 +64,18 @@ public class SoloGame implements Game {
         this.aiMobs = new ArrayList<Mob>();
         initTiers();
     }
+
+    /**
+     * Second constructor used to instantiate a game in progress
+     * @param player the Character object of the player
+     * @param locations The locations on the map (linked beforehand)
+     * @param mobs The mobs that can be spawned
+     * @param userEmail The email of the user
+     * @param startLocations The start locations of each team
+     * @param defenses The defenses that can be spawned
+     * @param log The log to be imported
+     * @param saveName The name of the game
+     */
     public SoloGame(Character player,
                     ArrayList<Location> locations, ArrayList<Mob> mobs, String userEmail, ArrayList<Location> startLocations, ArrayList<Defense> defenses, String log, String saveName) {
         this.turnCount = 1;
@@ -67,12 +92,20 @@ public class SoloGame implements Game {
         this.aiMobs = new ArrayList<Mob>();
         initTiers();
     }
+
+    /**
+     * Creates a tier list for spawning for each team. Higher tier == stronger mob spawning.
+     */
     private void initTiers(){
         mobTiers = new HashMap<>();
         for(Character.Team team: Character.Team.values()) {
             mobTiers.put(team, 0);
         }
     }
+
+    /**
+     * Creates defense objects of certain tiers on the map
+     */
     private void spawnDefenses(){
         Character.Team[] allTeams = Character.Team.values();
         for(Character.Team team: allTeams) {
@@ -86,6 +119,13 @@ public class SoloGame implements Game {
             spawnDefenses(defenses.size() - 1, start, team);
         }
     }
+
+    /**
+     * Recursive function that uses a search on the map and adds defensive locations
+     * @param tier The tier to be added (Started at the highest tier == closest to base)
+     * @param loc the location to spawn a defense
+     * @param team The team of the defense to be spawned
+     */
     private void spawnDefenses(int tier, Location loc, Character.Team team) {
         if(loc.isDefenseLoc() && !loc.hasDefense() && tier >= 0) {
             Defense defense = (Defense) defenses.get(tier).cloneSelf();
@@ -97,6 +137,10 @@ public class SoloGame implements Game {
             }
         }
     }
+
+    /**
+     * Spawns mobs for each team at each team's starting location
+     */
     private void spawnMobs() {
         if(mobs.size() > 0) {
             Character.Team[] allTeams = Character.Team.values();
@@ -117,6 +161,12 @@ public class SoloGame implements Game {
             }
         }
     }
+
+    /**
+     * Sends the mob to the starting location of a team.
+     * @param mob the mob to be moved
+     * @param team the team of the starting location
+     */
     private void addMobToStartLocation(Mob mob, Character.Team team) {
         for(Location loc: startLocations) {
             if(loc.getTeam().equals(team)) {
@@ -125,6 +175,12 @@ public class SoloGame implements Game {
             }
         }
     }
+
+    /**
+     * Gets the starting location of a designated team
+     * @param team the team to get the starting location from
+     * @return The starting location Location object.
+     */
     private Location getTeamStartLocation(Character.Team team ) {
         for(Location loc: startLocations) {
             if(loc.getTeam().equals(team)) {
@@ -135,6 +191,9 @@ public class SoloGame implements Game {
         return null;
     }
 
+    /**
+     * Sorts the mobs into different tiers (Includes defenses)
+     */
     private void sortMobsToTiers(){
         Collections.sort(mobs, new Comparator<Mob>() {
             @Override
@@ -169,6 +228,12 @@ public class SoloGame implements Game {
         System.out.println("Unable to locate player : " + p.getName());
         return null; // Default is last location
     }
+
+    /**
+     * Get a location of a mob
+     * @param p the mob to be located
+     * @return the Location object that contains the mob 'p'
+     */
     private Location locateMob(Mob p) {
         for(Location loc: locations) {
             if(loc.getEntities().indexOf(p)>= 0){
@@ -248,6 +313,10 @@ public class SoloGame implements Game {
         player.setWealth(player.getWealth() + 2);
         return turnCount;
     }
+
+    /**
+     * Revives all dead players to their respective starting locations with full health.
+     */
     private void reviveAllDeadPlayers(){
         if(player.getCurrHP() <= 0) {
             player.setCurrHP(player.getMaxHealth());
@@ -260,9 +329,20 @@ public class SoloGame implements Game {
             }
         }
     }
+
+    /**
+     * Creates a new log entry for the log
+     * @param message The message to be appended to the log
+     */
     private void newLogEntry(String message) {
         this.log += "\n[Turn #" + turnCount +"]" + message;
     }
+
+    /**
+     * The AI logic for a mob. Currently has a few concurrency issues (Clicking on commands to quickly) when testing so depreciated for now.
+     * @param mob the mob to make a decision
+     * @return true if the mob made a decision, false otherwise
+     */
     private boolean decisionMaker(Mob mob) {
         Character.Team mobTeam = mob.getTeam();
         Location startLocation = getTeamStartLocation(mobTeam);
@@ -359,6 +439,12 @@ public class SoloGame implements Game {
         }
     }
 
+    /**
+     * Method to allow mobs to attack other entities
+     * @param c The mob doing the attacking
+     * @param mob The mob to be attacked (null if none)
+     * @param player The player to be attacked (null if none)
+     */
     public void mobBasicAttack(Mob c, Mob mob, Character player) {
         if(mob != null) {
             c.attack(mob);
@@ -454,6 +540,12 @@ public class SoloGame implements Game {
         }
         c.setCurrEnergy(c.getCurrEnergy() - spell.getCost());
     }
+
+    /**
+     * Processes the looting when a mob is killed by a player
+     * @param c the character that killed the mob
+     * @param b the mob to be looted by the character
+     */
     private void checkLoot(Character c, Mob b) {
         int lootSize = b.getLoot().size();
         if(b.getLootRate() > 0 && lootSize > 0) {
@@ -466,6 +558,14 @@ public class SoloGame implements Game {
             }
         }
     }
+
+    /**
+     * Performs an analysis of distance from starting location and gives the location closer or farther from the starting location in a given location
+     * @param c the character or mob to be moved
+     * @param loc the location where the player or mob is
+     * @param farther true if the player wants to move farther, false otherwise
+     * @return true if the character or mob moved
+     */
     private boolean moveFromBase(Mob c, Location loc, boolean farther) {
         Location base = getTeamStartLocation(c.getTeam());
         int currDist = getDistFromLoc(loc, base);
@@ -489,6 +589,14 @@ public class SoloGame implements Game {
         }
         return false;
     }
+
+    /**
+     * Performs an analysis of distance from starting location and gives the location closer or farther from the starting location in a given location
+     * @param c the character or mob to be moved
+     * @param loc the location where the player or mob is
+     * @param farther true if the player wants to move farther, false otherwise
+     * @return true if the character or mob moved
+     */
     private boolean moveFromBase(Character c, Location loc, boolean farther) {
         Location base = getTeamStartLocation(c.getTeam());
         int currDist = getDistFromLoc(loc, base);
@@ -512,9 +620,25 @@ public class SoloGame implements Game {
         }
         return false;
     }
+
+    /**
+     * Calculates the distance between two locations by recursively traversing the graph
+     * @param loc location 1
+     * @param loc2 location 2
+     * @return Number of edges between Location 1 and Location 2
+     */
     private int getDistFromLoc(Location loc, Location loc2) {
         return getDistFromLoc(loc, loc2, 0, 69420);
     }
+
+    /**
+     * Calculates the distance between two locations by recursively traversing the graph
+     * @param loc location 1
+     * @param loc2 location 2
+     * @param dist distance already traveled
+     * @param minDist the minDist already found
+     * @return Number of edges between Location 1 and Location 2
+     */
     private int getDistFromLoc(Location loc, Location loc2, int dist, int minDist) {
         if(dist > minDist) {
             return minDist;
@@ -534,6 +658,13 @@ public class SoloGame implements Game {
         }
         return min;
     }
+
+    /**
+     * Gets the first enemy mob in the area
+     * @param loc location to be scouted
+     * @param team the team that the enemy does not belong to
+     * @return a mob if an enemy is found, otherwise null
+     */
     private Mob getEnemyMob(Location loc, Character.Team team) {
         for(Mob mob: loc.getEntities()) {
             if(!mob.getTeam().equals(team)) {
@@ -542,6 +673,13 @@ public class SoloGame implements Game {
         }
         return null;
     }
+
+    /**
+     * Gets the first enemy mob in the area
+     * @param loc location to be scouted
+     * @param team the team that the enemy does not belong to
+     * @return a mob if an enemy is found, otherwise null
+     */
     private Character getEnemyPlayer(Location loc, Character.Team team) {
         for(Character player: loc.getPlayers()) {
             if(!player.getTeam().equals(team)) {
@@ -550,6 +688,13 @@ public class SoloGame implements Game {
         }
         return null;
     }
+
+    /**
+     * Get the most expensive item in the shop given a Boost type bias and a cost threshold
+     * @param threshold the maximum allowable cost of the item
+     * @param bias the boost type that the item has have
+     * @return item if there exist an item otherwise null
+     */
     public Item getMostExpensiveBuyableItem(int threshold, Item.ItemBoostType bias) {
         Item best = null;
         if (shop.size() > 0) {
@@ -607,9 +752,9 @@ public class SoloGame implements Game {
     }
 
     /**
-     * Needs top be updated**
-     * @param l
-     * @return
+     * Converts all defense objects in the location to a savable object in the cloud
+     * @param l location to be parsed
+     * @return A map that can be stored on the cloud
      */
     private Map<String, Object> parseDefenses(Location l){
         Map<String, Object> data = new HashMap<>();
@@ -624,6 +769,12 @@ public class SoloGame implements Game {
         }
         return data;
     }
+
+    /**
+     * Parses a Character object to be stored on the cloud
+     * @param c the Character to be parsed
+     * @return The Map that contains the data of the character to be stored on the cloud
+     */
     private Map<String, Object> parsePlayer(Character c) {
         Map<String,Object> playerInfo = new HashMap<>();
         playerInfo.put("character", c.getType().toString());

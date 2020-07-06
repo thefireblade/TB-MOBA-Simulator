@@ -4,7 +4,13 @@
  */
 package com.example.tb_moba_simulator.objects;
 
+/**
+ * Item class that will contain all the necessary information to construct an item object.
+ */
 public class Item {
+    /**
+     * The different types of boost of an item.
+     */
     public enum ItemBoostType {
         health, attack, energy, exp, wealth
     }
@@ -18,6 +24,18 @@ public class Item {
     private boolean purchasable;
     private String name;
 
+    /**
+     * Constructs an item of certain characteristics.
+     * @param name Name of the item
+     * @param type The boost type of the item
+     * @param cost The amount of wealth used to buy the item
+     * @param power The power of the item
+     * @param imgSrc The image source that the item is linked to
+     * @param upgrade The upgrade path of the item (The child of the item)
+     * @param upgradeCost The cost to upgrade the item to the child
+     * @param consumable Is the item consumable?
+     * @param purchasable Is the item purchasable?
+     */
     public Item(String name, ItemBoostType type, int cost, int power, String imgSrc, Item upgrade, int upgradeCost,
                 boolean consumable, boolean purchasable) {
         this.name = name;
@@ -30,7 +48,7 @@ public class Item {
         this.consumable = consumable;
         this.purchasable = purchasable;
     }
-
+    /** Getter and Setter Methods for Item fields */
     public String getName() {
         return name;
     }

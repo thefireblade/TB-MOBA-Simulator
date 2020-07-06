@@ -22,6 +22,9 @@ import java.util.Map;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
+/**
+ * Object used for saving and loading a game
+ */
 public class SaveObject {
     private ArrayList<Map<String, Object>> defenses, mobs;
     private String landType, name, email = null;
@@ -33,6 +36,20 @@ public class SaveObject {
     private String log;
     private String date;
 
+    /**
+     * Constructor for a save object
+     * @param defenses the defenses on the map
+     * @param mobs The mobs on the map
+     * @param landType The type of map
+     * @param name The name of the game
+     * @param playerInfo The information of the player
+     * @param turn The turn count
+     * @param team_0 A list of Characters that belong to team_0
+     * @param team_1 A list of Characters that belong to team_1
+     * @param date The date of when the game was saved
+     * @param docID The document ID of save in the cloud
+     * @param log The log of the game
+     */
     public SaveObject(ArrayList<Map<String, Object>> defenses, ArrayList<Map<String, Object>> mobs,
                       String landType, String name, Map<String,Object> playerInfo,
                       int turn, ArrayList<Map<String, Object>> team_0, ArrayList<Map<String, Object>> team_1, String date, String docID, String log) {
@@ -54,7 +71,7 @@ public class SaveObject {
         this.docID = docID;
         this.log = log;
     }
-
+    /** Getter and setter methods of the save object */
     public void setDefenses(ArrayList<Map<String, Object>> defenses) {
         this.defenses = defenses;
     }

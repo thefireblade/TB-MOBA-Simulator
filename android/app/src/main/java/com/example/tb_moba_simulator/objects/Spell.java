@@ -4,7 +4,13 @@
  */
 package com.example.tb_moba_simulator.objects;
 
+/**
+ * Spell class that contains all of the necessary information for a spell to be used or casted
+ */
 public class Spell {
+    /**
+     * the different potential target groups of a spell
+     */
     public enum TargetGroup {
         self, group, other, allies
     }
@@ -20,7 +26,20 @@ public class Spell {
     private int atk_scale;
     private int hp_scale;
 
-
+    /**
+     * The constructor object of a spell
+     * @param name the name of the spell
+     * @param description the description of the spell
+     * @param atkPL the attack gained per level
+     * @param base_atk the base attack of the spell
+     * @param cost the energy cost to use a spell
+     * @param level the level required to use a spell
+     * @param targets the target group that spell affects
+     * @param priority the speed of the spell
+     * @param atk_scale the bonus attack of a character that the spell adds to it's power
+     * @param hp_scale the bonus hp of a character that the spell adds to it's power
+     * @param type the boost type of the spell (Health and energy restore while Attack does damage)
+     */
     public Spell(String name, String description, int atkPL, int base_atk, int cost, int level, TargetGroup targets, int priority, int atk_scale, int hp_scale, Item.ItemBoostType type) {
         this.name = name;
         this.description = description;
@@ -34,7 +53,7 @@ public class Spell {
         this.hp_scale = hp_scale;
         this.type = type;
     }
-
+    /** Getter and Setter methods of a Spell Object */
     public Item.ItemBoostType getType() {
         return type;
     }

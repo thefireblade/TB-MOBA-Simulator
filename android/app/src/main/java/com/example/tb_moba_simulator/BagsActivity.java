@@ -17,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tb_moba_simulator.objects.BagListAdapter;
 
+/**
+ * The activity that is connected to the in-game bag interface
+ */
 public class BagsActivity extends AppCompatActivity {
     private RecyclerView bagItemsView;
     private Button backGame;
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_bag_pop);
@@ -27,6 +31,10 @@ public class BagsActivity extends AppCompatActivity {
         initRecyclerView();
         initButtons();
     }
+
+    /**
+     * Prepares all of the buttons in the bag interface
+     */
     private void initButtons(){
         backGame = findViewById(R.id.game_bag_back);
         backGame.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +44,10 @@ public class BagsActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Prepares the list of Items in the bag
+     */
     private void initRecyclerView(){
         bagItemsView = findViewById(R.id.game_bag_recycler);
         BagListAdapter adapter = new BagListAdapter(GameManager.game.getCurrentPlayer().getItems());
@@ -43,6 +55,10 @@ public class BagsActivity extends AppCompatActivity {
         bagItemsView.setLayoutManager(manager);
         bagItemsView.setAdapter(adapter);
     }
+
+    /**
+     * Makes the bag interface a popup
+     */
     private void makeSelfPopUp(){
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

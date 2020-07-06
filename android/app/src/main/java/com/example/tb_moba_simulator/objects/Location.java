@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Location class that will make up the map. Currently implements an adjacency list 'connects' and implements breadth first search.
+ */
 public class Location {
     private String name;
     private ArrayList<Location> connects;
@@ -16,6 +19,15 @@ public class Location {
     private boolean defenseLoc;
     private boolean hasDefense;
     private Character.Team team;
+
+    /**
+     * The constructer for a location object
+     * @param name The name of the location
+     * @param connects The locations that the location connects to
+     * @param players The players in the location
+     * @param defenseLoc Can the location have a defensive structure?
+     * @param team The team that the location belongs to
+     */
     public Location(String name, ArrayList<Location> connects, ArrayList<Character> players, boolean defenseLoc, Character.Team team) {
         this.name  = name;
         this.players = players;
@@ -25,7 +37,7 @@ public class Location {
         this.hasDefense = false;
         this.team = team;
     }
-
+    /** Getter and Setter Methods for fields of Location */
     public boolean hasDefense() {
         return hasDefense;
     }

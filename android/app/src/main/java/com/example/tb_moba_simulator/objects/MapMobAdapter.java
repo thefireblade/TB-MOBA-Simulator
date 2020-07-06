@@ -19,6 +19,9 @@ import com.example.tb_moba_simulator.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The adapter class that will show any mobs in the location the user is in. Documentation for this adapter is the same for the other adapters (Search for AttackDefenseAdapter).
+ */
 public class MapMobAdapter extends RecyclerView.Adapter<MapMobAdapter.MapPlayerHolderClass>  {
     List<Mob> mobs;
     static class MapPlayerHolderClass extends RecyclerView.ViewHolder{

@@ -30,20 +30,45 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.transform.Templates;
 
+/**
+ * Similar to the AttackDefense / AttackPlayer adapters. Implements a table for moving between different locations
+ */
 public class GameMoveAdapter extends RecyclerView.Adapter<GameMoveAdapter.GameModeHolderClass>  {
     List<Location> locations;
     private InGameActivity context;
+
+    /**
+     * Basic implementation
+     */
     static class GameModeHolderClass extends RecyclerView.ViewHolder{
         public Button gameMode;
+
+        /**
+         * Basic implementation
+         * @param itemView
+         */
         public GameModeHolderClass(@NonNull View itemView) {
             super(itemView);
             this.gameMode = itemView.findViewById(R.id.game_mode_item_name);
         }
     }
+
+    /**
+     * Basic implementation of the constructor to the adapter
+     * @param locations
+     * @param context
+     */
     public GameMoveAdapter(List<Location> locations, InGameActivity context) {
         this.locations = locations;
         this.context = context;
     }
+
+    /**
+     * Basic implementation of overridden method
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public GameModeHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,6 +77,11 @@ public class GameMoveAdapter extends RecyclerView.Adapter<GameMoveAdapter.GameMo
         return gmh;
     }
 
+    /**
+     * Basic implementation for the Binder
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull GameModeHolderClass holder, final int position) {
         holder.gameMode.setText(locations.get(position).getName());
@@ -78,6 +108,10 @@ public class GameMoveAdapter extends RecyclerView.Adapter<GameMoveAdapter.GameMo
         });
     }
 
+    /**
+     * Basic
+     * @return
+     */
     @Override
     public int getItemCount() {
         return this.locations.size();

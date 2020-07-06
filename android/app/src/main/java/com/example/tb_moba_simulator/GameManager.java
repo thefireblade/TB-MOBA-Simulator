@@ -33,7 +33,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-//Class to maintain static values for the game environment
+/**
+ * Class to maintain all of the in-game environment variables (ALL STATIC) (MEMORY / CACHING inefficient as per design but fast)
+ */
 public class GameManager {
     public static Game game;
     public static Character.CharacterClass selectedType = Character.CharacterClass.archer;
@@ -47,6 +49,11 @@ public class GameManager {
     public static ArrayList<Mob> mobs;
     public static ArrayList<Defense> defenses;
     public static boolean settings = false;
+
+    /**
+     * Loads a new game of a specific gamemode (Single player only as of right now)
+     * @param landData the pulled data from the cloud
+     */
     public static void initGameMode(Map<String, Object> landData) {
         if(playable) {
             if(!(Boolean) landData.get("multiplayer")) {
@@ -56,6 +63,11 @@ public class GameManager {
             loaded = false;
         }
     }
+
+    /**
+     * Initialize and start a single player game
+     * @param landData the pulled data from the cloud
+     */
     private static void initSinglePlayer(Map<String, Object> landData){
         seed = new Random();
         int ai = seed.nextInt(3);
@@ -74,12 +86,20 @@ public class GameManager {
         game.getShop().addAll(purchasableItems);
         game.loadMap();
     }
+
+    /**
+     * Load all necessary default configurations for a game to run
+     */
     public static void loadDefaultConfiguration(){
         loadAllItems();
         loadAllGameLands();
         loadAllDefenses();
         loadAllCharacterTypes();
     }
+
+    /**
+     * Query all of the mobs to be loaded into a game
+     */
     private static void loadAllMobs(){
         mobs = new ArrayList<Mob>();
         if(FirebaseManager.dbInitialized) {
@@ -109,6 +129,10 @@ public class GameManager {
                     });
         }
     }
+
+    /**
+     * Query all of the defenses to be loaded into the game
+     */
     private static void loadAllDefenses(){
         defenses = new ArrayList<Defense>();
         if(FirebaseManager.dbInitialized) {
@@ -135,6 +159,10 @@ public class GameManager {
                     });
         }
     }
+
+    /**
+     * Query all of the game lands to loaded into the game
+     */
     private static void loadAllGameLands(){
         lands = new ArrayList<Map<String, Object>>();
         if(FirebaseManager.dbInitialized) {
@@ -156,6 +184,10 @@ public class GameManager {
                     });
         }
     }
+
+    /**
+     * Load all of the character types in the game
+     */
     private static void loadAllCharacterTypes(){
         if(FirebaseManager.dbInitialized) {
             allCharacterTypes = new HashMap<String, Character>();
@@ -195,6 +227,12 @@ public class GameManager {
             playable = false;
         }
     }
+
+    /**
+     * Reads a spell from raw data and return a Spell Object
+     * @param spellMap the data that contains a spell
+     * @return A Spell object
+     */
     private static Spell parseSpell(Map<String, Object> spellMap) {
         return new Spell(
                 (String)spellMap.get("name"),
@@ -209,12 +247,24 @@ public class GameManager {
                 (int)Double.parseDouble(spellMap.get("scale_health").toString()),
                 Item.ItemBoostType.valueOf((String)spellMap.get("type")));
     }
+
+    /**
+     * Loads a new character object of CharacterClass type
+     * @param type the type of character to be loaded
+     * @return a new character object
+     */
     public static Character loadNewClass(Character.CharacterClass type) {
         if(playable) {
             return allCharacterTypes.get(type.toString()).cloneSelf();
         }
         else return null;
     }
+
+    /**
+     * Takes location data and returns an array of Locations that are all linked
+     * @param landData the queried location data
+     * @return ArrayList of locations that are linked
+     */
     private static ArrayList<Location> parseLocations(Map<String, Object> landData) {
         ArrayList<Location> locations = new ArrayList<>();
         Map<String, Object> landLocations = (Map<String, Object>) landData.get("locations");
@@ -240,6 +290,13 @@ public class GameManager {
         }
         return locations;
     }
+
+    /**
+     * Take queried start locations and convert and link them to locations
+     * @param startLoc startLocations
+     * @param locations the locations that start locations will be linked to
+     * @return an array of starting locations
+     */
     private static ArrayList<Location> parseStartLocations(Map<String, Object> startLoc, ArrayList<Location> locations) {
         ArrayList<Location> startLocations = new ArrayList<>();
         int t1 = findLoc((String)startLoc.get("team_0"), locations), t2 = findLoc((String)startLoc.get("team_1"), locations);
@@ -251,6 +308,13 @@ public class GameManager {
         }
         return startLocations;
     }
+
+    /**
+     * Finds the location index of the location given it's name
+     * @param name the name of a location
+     * @param locations the arraylist of locations to search through
+     * @return the index of the location in locations, otherwise -1
+     */
     private static int findLoc(String name, ArrayList<Location> locations) {
         for(int i = 0; i < locations.size(); i++) {
             if(locations.get(i).getName().equals(name)) {
@@ -260,6 +324,12 @@ public class GameManager {
         System.out.println("findLoc() was not able to find the value for the specified name : " + name);
         return -1;
     }
+
+    /**
+     * Links the Character 'player' to one of the starting locations that match its team
+     * @param player the player to be linked
+     * @param startLocations the starting locations
+     */
     private static void addPlayersToStartLocation(Character player, ArrayList<Location> startLocations) {
         for(Location location: startLocations) {
             if(location.getTeam().equals(player.getTeam())) {
@@ -268,6 +338,10 @@ public class GameManager {
             }
         }
     }
+
+    /**
+     * Queries all item information and populates the allItems and purchasableItems arraylist
+     */
     private static void loadAllItems(){
         allItems = new ArrayList<>();
         purchasableItems = new ArrayList<>();
@@ -301,6 +375,12 @@ public class GameManager {
                     });
         }
     }
+
+    /**
+     * Converts a list of item names to a list of Item objects.
+     * @param loot The list of item names to be converted
+     * @return A list of items
+     */
     private static ArrayList<Item> getLootList(ArrayList<String> loot){
         ArrayList<Item> lootList = new ArrayList<>();
         for(String s: loot) {

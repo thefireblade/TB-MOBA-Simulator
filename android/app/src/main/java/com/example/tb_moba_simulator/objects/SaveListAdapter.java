@@ -23,6 +23,9 @@ import com.example.tb_moba_simulator.R;
 
 import java.util.ArrayList;
 
+/**
+ * The adapter class that manages all of the saves of a game. Documentation for this adapter is the same for the other adapters (Search for AttackDefenseAdapter).
+ */
 public class SaveListAdapter extends RecyclerView.Adapter<SaveListAdapter.SaveHolderClass>  {
     ArrayList<SaveObject> saves;
     private Context context;

@@ -15,10 +15,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The character object class that maintains the integrity and storage of player objects (Real Players and AI)
+ */
 public class Character {
+    /**
+     * Enum for keeping track of different character types
+     */
     public enum CharacterClass {
         archer, sword, shield
     }
+
+    /**
+     * Enum for keeping track of Teams. na is default for none.
+     */
     public enum Team {
         team_0, team_1, na
     }
@@ -35,6 +45,21 @@ public class Character {
     private ArrayList<Spell> spells;
     private int kills, deaths, assist;
 
+    /**
+     * Constructor for the character object. Very bulky and contains everything a basic character object needs.
+     * @param baseHp Base health of the character (At level 0)
+     * @param baseAtk Base attack of the character (At level 0)
+     * @param baseDef Base defense [Currently not being used]
+     * @param baseEnergy Base energy of the character (At level 0)
+     * @param hpPT Health gained per level
+     * @param atkPT Attack gained per level
+     * @param defPT Defense gained per level [Currently not being used]
+     * @param energyPT Energy gained per level
+     * @param exp Experience points of a character (Level = floor(exp/5) + 1
+     * @param characterType Enum type of the character
+     * @param name Unique name for the character (This will be identified as the email/username)
+     * @param team Team enum that the player belongs to
+     */
     public Character(int baseHp, int baseAtk, int baseDef, int baseEnergy, int hpPT,
                      int atkPT, int defPT, int energyPT, int exp, CharacterClass characterType,
                      String name, Team team) {
@@ -52,6 +77,8 @@ public class Character {
         spells = new ArrayList<Spell>();
         kills = 0; deaths = 0; assist = 0;
     }
+
+    /** GETTER AND SETTER Methods for a character*/
 
     public ArrayList<Spell> getSpells() {
         return spells;
@@ -264,6 +291,11 @@ public class Character {
         return this.exp;
     }
 
+    /**
+     * Allows the player to purchase an item, adding it to their items array and deducting wealth
+     * @param item Item of interest
+     * @return true if the item has been successfully purchased. false if otherwise.
+     */
     public boolean purchaseItem(Item item){
         if(this.wealth >= item.getCost()) {
             items.add(item);
@@ -273,6 +305,11 @@ public class Character {
         return false;
     }
 
+    /**
+     * Consumes a consumable item that the player has in their inventory. Consumed item can exceed maximums like drugs.
+     * @param item consumed item
+     * @return true if the item has been successfully consumed. false if otherwise.
+     */
     public boolean consumeItem(Item item) {
         int index = items.indexOf(item);
         if(index >= 0) {
@@ -291,6 +328,12 @@ public class Character {
         }
         return false;
     }
+
+    /**
+     * Sell an item that the player has in their inventory
+     * @param item Item to sell
+     * @return true if the item has been successfully sold. false if otherwise.
+     */
     public boolean sellItem(Item item) {
         int index = items.indexOf(item);
         if(index >= 0) {
@@ -301,6 +344,9 @@ public class Character {
         return false;
     }
 
+    /**
+     * Movement command that allows the player to heal 50% of their total energy and health. Does not exceed max health.
+     */
     public void rest(){
         this.currHP += (int)Math.floor(getMaxHealth() /2);
         this.currEnergy += (int)Math.floor(getMaxEnergy() /2);
@@ -312,6 +358,10 @@ public class Character {
         }
     }
 
+    /**
+     * Method that determines a spell that the player can use. This selection is random. Currently deprecated because of concurrency issues.
+     * @return The spell that the character knows and can use (has enough energy)
+     */
     public Spell getRandomUsableSpell() {
         ArrayList<Spell> usableSpells = new ArrayList<>();
         for(Spell spell: spells) {
@@ -329,6 +379,11 @@ public class Character {
         return usableSpells.get(random.nextInt(usableSpells.size()));
     }
 
+    /** ATTACK METHODS - CHARACTERS can attack other CHARACTERS or MOBS*/
+    /**
+     * Attacks another character or mob
+     * @param c the character or mob to be attacked
+     */
     public void attack(Character c) {
         c.setCurrHP(c.getCurrHP() - this.getCurrAtk());
     }
@@ -341,6 +396,11 @@ public class Character {
     public void attack(Mob mob, Spell spell) {
         mob.setHealth(mob.getHealth() - this.getSpellPower(spell));
     }
+    /** Restoration spell methods*/
+    /**
+     * Character uses a restoration type spell, gaining how much of something that the spell type is in.
+     * @param spell The spell to be used (on a player or mob or self)
+     */
     public void restore(Spell spell) {
         switch(spell.getType()) {
             case energy: this.setCurrEnergy(this.getCurrEnergy() + this.getSpellPower(spell)); break;
@@ -359,11 +419,22 @@ public class Character {
             default: ; // Do nothing
         }
     }
+
+    /**
+     * Get the power of the spell through a formula
+     * @param spell the spell to be used
+     * @return the Integer power of the spell
+     */
     public int getSpellPower(Spell spell) {
         return spell.getAtk_scale() * (this.getBoost(Item.ItemBoostType.attack) + this.getAtkPT() * getLevel())
                 + spell.getHp_scale() * (this.getBoost(Item.ItemBoostType.health) + this.getHpPT() * getLevel()) +
                 spell.getBase_atk() + spell.getAtkPL() * this.getLevel();
     }
+
+    /**
+     * Create a shallow clone of the character(Spell references are still the same) and does not carry over current health, wealth, kills, or deaths
+     * @return A shallow empty copy of the character
+     */
     public Character cloneSelf(){
         Character newChar = new Character(this.baseHP,this.baseAtk, this.baseDef, this.baseEnergy, this.hpPT, this.atkPT, this.defPT, this.energyPT, this.exp,
                 this.type, this.name, this.team);

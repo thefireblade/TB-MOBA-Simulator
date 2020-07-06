@@ -23,6 +23,9 @@ import com.example.tb_moba_simulator.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that holds all of the items of the player
+ */
 public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagHolderClass>  {
     List<Item> items;
     static class BagHolderClass extends RecyclerView.ViewHolder{
@@ -39,9 +42,21 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagHolde
             this.img = itemView.findViewById(R.id.bag_item_image);
         }
     }
+
+    /**
+     * Constructor of the bag adapter
+     * @param items the items that the player holds
+     */
     public BagListAdapter(List<Item> items) {
         this.items = items;
     }
+
+    /**
+     * This is the default holder implementation
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public BagHolderClass onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +65,11 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagHolde
         return shc;
     }
 
+    /**
+     * This class binds the elements of a table cell to the contents of an Item
+     * @param holder Holder class
+     * @param position position of table cell
+     */
     @Override
     public void onBindViewHolder(@NonNull BagHolderClass holder, final int position) {
         final Item item = items.get(position);
@@ -85,6 +105,10 @@ public class BagListAdapter extends RecyclerView.Adapter<BagListAdapter.BagHolde
         });
     }
 
+    /**
+     * Default implementation for getting the item count
+     * @return
+     */
     @Override
     public int getItemCount() {
         return this.items.size();
