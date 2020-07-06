@@ -851,7 +851,7 @@ public class SoloGame implements Game {
     @Override
     public boolean locationHasEnemyPlayer(Location loc, Character.Team team) {
         for(Character player: loc.getPlayers()) {
-            if(!player.getTeam().equals(team)) {
+            if(!player.getTeam().equals(team) && player.getCurrHP() > 0) {
                 return true;
             }
         }
